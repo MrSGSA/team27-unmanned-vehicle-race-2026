@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="820" viewBox="0 0 760 720">
+  <rect width="760" height="720" fill="white"/>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- 工程图中心线：外轮廓约60m×60m，路宽6m，圆弯中心线R9m。 -->
+  <path d="M650 230 L650 200 A90 90 0 0 0 560 110 L200 110
+           A90 90 0 0 0 200 290 L410 290 A90 90 0 0 1 410 470
+           L200 470 A90 90 0 0 0 200 650 L560 650 A90 90 0 0 0 650 560
+           L650 530 C650 520 650 515 650 510 C648 503 645 497 641.6 491.8
+           L606.8 416.3 C600 402 596 386 590 380 C596 374 600 358 606.8 343.7
+           L643.7 263.6 C647 257 649 253 650 250 C650 245 650 241 650 238 L650 230"
+        fill="none" stroke="#111" stroke-width="64" stroke-linejoin="round"/>
+  <path d="M650 230 L650 200 A90 90 0 0 0 560 110 L200 110
+           A90 90 0 0 0 200 290 L410 290 A90 90 0 0 1 410 470
+           L200 470 A90 90 0 0 0 200 650 L560 650 A90 90 0 0 0 650 560
+           L650 530 C650 520 650 515 650 510 C648 503 645 497 641.6 491.8
+           L606.8 416.3 C600 402 596 386 590 380 C596 374 600 358 606.8 343.7
+           L643.7 263.6 C647 257 649 253 650 250 C650 245 650 241 650 238 L650 230"
+        fill="none" stroke="#eeeeee" stroke-width="60" stroke-linejoin="round"/>
+  <path d="M650 230 L650 200 A90 90 0 0 0 560 110 L200 110
+           A90 90 0 0 0 200 290 L410 290 A90 90 0 0 1 410 470
+           L200 470 A90 90 0 0 0 200 650 L560 650 A90 90 0 0 0 650 560
+           L650 530 C650 520 650 515 650 510 C648 503 645 497 641.6 491.8
+           L606.8 416.3 C600 402 596 386 590 380 C596 374 600 358 606.8 343.7
+           L643.7 263.6 C647 257 649 253 650 250 C650 245 650 241 650 238 L650 230"
+        fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="8 5" stroke-linejoin="round"/>
+
+  <!-- 障碍物位置取官方图二；为方便观察，图中符号放大，模型尺寸仍为15cm。 -->
+  <g fill="#111">
+    <rect x="416" y="88" width="8" height="8"/>
+    <rect x="276" y="101" width="8" height="8"/>
+    <rect x="146" y="171" width="8" height="8"/>
+    <rect x="531" y="131" width="8" height="8"/>
+    <rect x="266" y="291" width="8" height="8"/>
+    <rect x="621" y="326" width="8" height="8"/>
+    <rect x="506" y="621" width="8" height="8"/>
+    <rect x="246" y="664" width="8" height="8"/>
+    <rect x="336" y="653" width="8" height="8"/>
+  </g>
+
+  <!-- 坡道位置取官方图二；黑色矩形按0.9m×0.3m等比例绘制。 -->
+  <rect x="335.5" y="468.5" width="9" height="3" fill="#000"/>
+  <line x1="340" y1="465" x2="340" y2="438" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="349" y="445" font-size="12">RAMP 0.30m x 0.90m / 16.5 deg</text>
+
+  <!-- 官方起终点。 -->
+  <line x1="615" y1="230" x2="686" y2="230" stroke="#111" stroke-width="3" stroke-dasharray="9 6"/>
+  <text x="555" y="220" font-size="14">START / FINISH</text>
+
+  <g font-family="Microsoft YaHei, sans-serif" fill="#222" font-size="13">
+    <text x="112" y="203">C1：R6 / R9 / R12</text>
+    <text x="430" y="385">C2：R6 / R9 / R12</text>
+    <text x="112" y="562">C3：R6 / R9 / R12</text>
+    <text x="520" y="176">C4</text>
+    <text x="520" y="596">C5</text>
+    <text x="18" y="24" font-size="16">2026 决赛基准赛道（工程几何 + 官方障碍物布置）</text>
+    <text x="18" y="45">外轮廓约60m×60m；常规及折弯最窄通行宽度约6m</text>
+  </g>
+
+  <line x1="80" y1="700" x2="680" y2="700" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="350" y="695" font-family="Microsoft YaHei, sans-serif" font-size="14">60 m</text>
+</svg>

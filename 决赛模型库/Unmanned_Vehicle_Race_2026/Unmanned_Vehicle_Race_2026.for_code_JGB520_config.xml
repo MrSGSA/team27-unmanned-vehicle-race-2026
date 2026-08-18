@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalMode>
+    <HardwareImpl>
+        <HardwareBoard>Raspberry Pi</HardwareBoard>
+        <DeviceInfo Vendor="ARM Compatible" Category="ARM Cortex"/>
+        <DeviceDetailInfo>
+            <Digit char="8" long="32" double="64" size_t="32" short="16" llong="64" native="32" ptrdiff="32" int="32" float="32" pointer="32"/>
+            <MaxAtomicSize integer="long" float="double"/>
+            <ByteOrder>1</ByteOrder>
+            <DivideType>0</DivideType>
+            <ShifIntArithmetic>true</ShifIntArithmetic>
+            <SupportLL>true</SupportLL>
+        </DeviceDetailInfo>
+        <BoardSettings>
+            <Group Name="Operating system/scheduler" CanCollapse="true">
+                <Group Name="Operating system options" CanCollapse="false">
+                    <Item>
+                        <Control Type="Label" Content="Base rate task priority:"/>
+                        <Control Type="LineEdit" Content="40" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="CheckBox" Content="Detect task overruns" isCheck="false" Enable="true"/>
+                    </Item>
+                </Group>
+                <Group Name="Scheduler options" CanCollapse="false">
+                    <Item>
+                        <Control Type="Label" Content="Base rate trigger:"/>
+                        <Control Type="ComboBox" Content="Operating system timer" Enable="true">
+                            <Member Content="Operating system timer"/>
+                        </Control>
+                    </Item>
+                </Group>
+            </Group>
+            <Group Name="Target hardware resources" CanCollapse="true">
+                <TabPage Name="Board Parameters">
+                    <Item>
+                        <Control Type="Label" Content="Device Address:"/>
+                        <Control Type="LineEdit" Content="172.16.66.34" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Username:"/>
+                        <Control Type="LineEdit" Content="pi" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Password:"/>
+                        <Control Type="LineEdit" Content="pi" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Build directory:"/>
+                        <Control Type="LineEdit" Content="/home/pi/x666" Enable="true"/>
+                    </Item>
+                </TabPage>
+                <TabPage Name="Build options">
+                    <Item>
+                        <Control Type="Label" Content="Build action:"/>
+                        <Control Type="ComboBox" Content="Build and run" Enable="true">
+                            <Member Content="Build"/>
+                            <Member Content="Build and run"/>
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="CheckBox" Content="Run on boot" isCheck="true" Enable="true"/>
+                    </Item>
+                </TabPage>
+                <TabPage Name="External mode">
+                    <Item>
+                        <Control Type="Label" Content="Communication Interface:"/>
+                        <Control Type="ComboBox" Content="TCP/IP" Enable="true">
+                            <Member Content="TCP/IP"/>
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="CheckBox" Content="Run external mode in a background thread" isCheck="false" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Port:"/>
+                        <Control Type="LineEdit" Content="17725" Enable="true"/>
+                    </Item>
+                </TabPage>
+            </Group>
+        </BoardSettings>
+    </HardwareImpl>
+    <MeasureCalibrate>
+        <DragWidget name="chart" type="4" position="8,0" size="300,220" isCalibration="false" isNameVisible="false" min="1.167097685506685e-311" max="2.3715151000379834e-322" interval="1.1679421980163381e-311" precision="4" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain3" bindVar="gain3.y"/>
+        <DragWidget name="chart1" type="4" position="317,0" size="300,220" isCalibration="false" isNameVisible="false" min="1.1670976850308998e-311" max="2.3715151000379834e-322" interval="1.1679421980163381e-311" precision="4" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain4" bindVar="gain4.y"/>
+        <DragWidget name="chart2" type="4" position="633,0" size="300,220" isCalibration="false" isNameVisible="false" min="1.1670976850308998e-311" max="2.3715151000379834e-322" interval="1.1679421980163381e-311" precision="4" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain5" bindVar="gain5.y"/>
+        <DragWidget name="chart3" type="4" position="10,210" size="300,220" isCalibration="false" isNameVisible="false" min="1.1679416459118127e-311" max="3.0184145280260747e-312" interval="0" precision="0" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain6" bindVar="gain6.y"/>
+        <DragWidget name="chart4" type="4" position="318,214" size="300,220" isCalibration="false" isNameVisible="false" min="1.1679416459118127e-311" max="3.0184145280260747e-312" interval="0" precision="0" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain8" bindVar="gain8.y"/>
+        <DragWidget name="chart5" type="4" position="11,472" size="300,220" isCalibration="false" isNameVisible="false" min="1.1679416459118127e-311" max="3.0184145280260747e-312" interval="0" precision="0" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain2" bindVar="gain2.y"/>
+        <DragWidget name="chart6" type="4" position="323,468" size="300,220" isCalibration="false" isNameVisible="false" min="1.1679416459118127e-311" max="3.0184145280260747e-312" interval="0" precision="0" orientation="0" text="" imgPath="" dataSize="20" isBinding="true" bindComp="gain1" bindVar="gain1.y"/>
+    </MeasureCalibrate>
+</ExternalMode>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalMode>
+    <HardwareImpl>
+        <HardwareBoard>STM32H743ZI2</HardwareBoard>
+        <DeviceInfo Vendor="ARM Compatible" Category="ARM Cortex"/>
+        <DeviceDetailInfo>
+            <Digit char="8" long="32" double="64" size_t="32" short="16" llong="64" native="32" ptrdiff="32" int="32" float="32" pointer="32"/>
+            <MaxAtomicSize integer="long" float="double"/>
+            <ByteOrder>1</ByteOrder>
+            <DivideType>0</DivideType>
+            <ShifIntArithmetic>true</ShifIntArithmetic>
+            <SupportLL>true</SupportLL>
+        </DeviceDetailInfo>
+        <BoardSettings>
+            <Group Name="Target hardware resources" CanCollapse="true">
+				<TabPage Name="Build options">
+                    <Item>
+                        <Control Type="Label" Content="Build action:"/>
+                        <Control Type="ComboBox" Content="Build and run" Enable="true">
+                            <Member Content="Build"/>
+                            <Member Content="Build and run"/>
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Set host drive:"/>
+                        <Control Type="ComboBox" Content="Automatically" Enable="true">
+                            <Member Content="Automatically"/>
+                        </Control>
+                    </Item>
+                </TabPage>
+                <TabPage Name="Board Parameters">
+                    <Item>
+                        <Control Type="Label" Content="STM32 Environment:"/>
+                        <Control Type="LineEdit" Content="" Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="STM32 Project:"/>
+                        <Control Type="LineEdit" Content="" Enable="true"/>
+                    </Item>
+                </TabPage>
+                <TabPage Name="External mode">
+                    <Item>
+                        <Control Type="Label" Content="Communication Interface:"/>
+                        <Control Type="ComboBox" Content="serial" Enable="true">
+                            <Member Content="serial"/>
+                        </Control>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Serial port:"/>
+                        <Control Type="LineEdit" Content="COM3" Enable="true"/>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Baud rate(in bits/s):"/>
+                        <Control Type="LineEdit" Content="115200" Enable="true"/>
+                    </Item>
+                </TabPage>
+            </Group>
+        </BoardSettings>
+    </HardwareImpl>
+</ExternalMode>

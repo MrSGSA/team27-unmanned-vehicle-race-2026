@@ -1,0 +1,15 @@
+<ExternalResources>
+    <BasePaths>
+        <BasePath name="&gt;root&lt;"></BasePath>
+    </BasePaths>
+    <IncludeDirectory>
+        <Path>C:/Users/Administrator/Desktop/无人系统竞赛决赛/决赛模型库/Unmanned_Vehicle_Race_2026/Raspberry_Pi_Interface/Source</Path>
+        <Path>C:/Users/Administrator/Documents/MWORKS</Path>
+    </IncludeDirectory>
+    <LibraryDirectory>
+        <Path>C:/Users/Administrator/Desktop/无人系统竞赛决赛/决赛模型库/Unmanned_Vehicle_Race_2026/Raspberry_Pi_Interface/Source</Path>
+    </LibraryDirectory>
+    <SearchPaths>
+        <Path>C:/Users/Administrator/Documents/MWORKS</Path>
+    </SearchPaths>
+</ExternalResources>

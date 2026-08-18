@@ -1,0 +1,7 @@
+# Local caches and logs only. Competition assets, generated C, backups, and tools stay tracked.
+**/__pycache__/
+*.py[cod]
+*.log
+Thumbs.db
+.DS_Store
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalMode>
+    <HardwareImpl>
+        <HardwareBoard>STM32H750</HardwareBoard>
+        <DeviceInfo Vendor="ARM Compatible" Category="ARM Cortex"/>
+        <DeviceDetailInfo>
+            <Digit char="8" long="32" double="64" size_t="32" short="16" llong="64" native="32" ptrdiff="32" int="32" float="32" pointer="32"/>
+            <MaxAtomicSize integer="long" float="double"/>
+            <ByteOrder>1</ByteOrder>
+            <DivideType>0</DivideType>
+            <ShifIntArithmetic>true</ShifIntArithmetic>
+            <SupportLL>true</SupportLL>
+        </DeviceDetailInfo>
+        <BoardSettings>
+            <Group Name="Operating system/scheduler" CanCollapse="true">
+                <Item>
+                    <Control Type="Label" Content="Operating system:"/>
+                    <Control Type="ComboBox" Content="Baremetal" Enable="true">
+                        <Member Content="Baremetal"/>
+                    </Control>
+                </Item>
+            </Group>
+            <Group Name="Target hardware resources" CanCollapse="true">
+				<TabPage Name="Build options">
+                    <Item>
+                        <Control Type="Label" Content="Build action:"/>
+                        <Control Type="ComboBox" Content="Build and run" Enable="true">
+                            <Member Content="Build"/>
+                            <Member Content="Build and run"/>
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Set host drive:"/>
+                        <Control Type="ComboBox" Content="Automatically" Enable="true">
+                            <Member Content="Automatically"/>
+                        </Control>
+                    </Item>
+                </TabPage>
+                <TabPage Name="Board Parameters">
+                    <Item>
+                        <Control Type="Label" Content="Keil Path:"/>
+                        <Control Type="LineEdit" Content="" Enable="true"/>
+						<Control Type="Button" Content="..." Enable="true"/>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Flash Tool:"/>
+                        <Control Type="LineEdit" Content="" Enable="true"/>
+						<Control Type="Button" Content="..." Enable="true"/>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Working directory:"/>
+                        <Control Type="LineEdit" Content="" Enable="true"/>
+						<Control Type="Button" Content="..." Enable="true"/>
+                    </Item>
+                </TabPage>
+                
+                <TabPage Name="External mode">
+                    <Item>
+                        <Control Type="Label" Content="Communication Interface:"/>
+                        <Control Type="ComboBox" Content="TCP/IP" Enable="true">
+                            <Member Content="TCP/IP"/>
+                        </Control>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Device Address:"/>
+                        <Control Type="LineEdit" Content="192.168.0.122" Enable="true"/>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Port:"/>
+                        <Control Type="LineEdit" Content="8080" Enable="false"/>
+                    </Item>
+                </TabPage>
+            </Group>
+        </BoardSettings>
+    </HardwareImpl>
+</ExternalMode>

@@ -1,0 +1,20 @@
+* text=auto
+*.mo text
+*.c text
+*.h text
+*.py text
+*.ps1 text
+*.bat text
+*.md text
+*.xml text
+*.json text
+*.pdf binary
+*.png binary
+*.jpg binary
+*.stl binary
+*.dll binary
+*.exe binary
+*.zip binary
+*.rar binary
+*.pdb binary
+

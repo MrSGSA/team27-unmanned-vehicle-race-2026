@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalMode>
+    <HardwareImpl>
+        <HardwareBoard>PX4 Pixhawk 4</HardwareBoard>
+        <DeviceInfo Vendor="ARM Compatible" Category="ARM Cortex"/>
+        <DeviceDetailInfo>
+            <Digit char="8" long="32" double="64" size_t="32" short="16" llong="64" native="32" ptrdiff="32" int="32" float="32" pointer="32"/>
+            <MaxAtomicSize integer="long" float="double"/>
+            <ByteOrder>1</ByteOrder>
+            <DivideType>0</DivideType>
+            <ShifIntArithmetic>true</ShifIntArithmetic>
+            <SupportLL>true</SupportLL>
+        </DeviceDetailInfo>
+        <BoardSettings>
+            <Group Name="Operating system/scheduler" CanCollapse="true">
+                <Group Name="Operating system options" CanCollapse="false">
+                    <Item>
+                        <Control Type="Label" Content="Base rate task priority:"/>
+                        <Control Type="LineEdit" Content="250" Enable="true"/>
+                    </Item>
+                </Group>
+            </Group>
+            <Group Name="Target hardware resources" CanCollapse="true">
+                <TabPage Name="Build options">
+                    <Item>
+                        <Control Type="Label" Content="Build action:"/>
+                        <Control Type="ComboBox" Content="Build, load and run" Enable="true">
+                            <Member Content="Build"/>
+                            <Member Content="Build, load and run"/>
+                        </Control>
+                    </Item>
+					<Item>
+						<Control Type="Label" Content="PX4 Project Path:"/>
+						<Control Type="LineEdit" Content="" Enable="true"/>
+						<Control Type="Button" Content="..." Enable="true"/>
+					</Item>
+                </TabPage>
+                <TabPage Name="External mode">
+                    <Item>
+                        <Control Type="Label" Content="Communication Interface:"/>
+                        <Control Type="ComboBox" Content="XCP on Serial" Enable="true">
+                            <Member Content="XCP on Serial"/>
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="Label" Content="Hardware board serial port:"/>
+                        <Control Type="ComboBox" Content="/dev/ttyACM0" Enable="true">
+                            <Member Content="/dev/ttyACM0"/>
+                        </Control>
+                    </Item>
+					<Item>
+                        <Control Type="Label" Content="Serial port:"/>
+                        <Control Type="ComboBox" Content="COM3" Enable="true">
+                            <!--<Member Content="COM1"/>-->
+							<!--replaceSerialPorts-->
+                        </Control>
+                    </Item>
+                    <Item>
+                        <Control Type="CheckBox" Content="Verbose" isCheck="true" Enable="true"/>
+                    </Item>
+                </TabPage>
+                <TabPage Name="Connected I/O">
+                    <Item>
+                        <Control Type="Label" Content="Hardware board serial port:"/>
+                        <Control Type="ComboBox" Content="/dev/ttyACM0" Enable="true">
+                            <Member Content="/dev/ttyACM0"/>
+                        </Control>
+                    </Item>
+                </TabPage>
+				<TabPage Name="/dev/ttyACM0">
+                    <Item>
+                        <Control Type="Label" Content="Baud rate(in bits/s):"/>
+                        <Control Type="ComboBox" Content="57600" Enable="true">
+                            <Member Content="57600"/>
+							<Member Content="921600"/>
+							<Member Content="2000000"/>
+							<Member Content="2500000"/>
+							<Member Content="3000000"/>
+                        </Control>
+                    </Item>
+                </TabPage>
+            </Group>
+        </BoardSettings>
+    </HardwareImpl>
+</ExternalMode>
