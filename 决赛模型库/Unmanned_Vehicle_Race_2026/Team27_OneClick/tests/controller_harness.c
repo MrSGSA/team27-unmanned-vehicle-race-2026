@@ -23,6 +23,8 @@ static double previous_steer = 0.0;
 static double max_steer_step = 0.0;
 static int reverse_seen = 0;
 static int reverse_steps = 0;
+static int reverse_episodes = 0;
+static int was_reversing = 0;
 
 void rasInit(void) {}
 int serialOpen(const char *device, const int baud)
@@ -67,10 +69,14 @@ void GetCarMsg(double *dis1, double *dis2, double *dis3,
 
 static void model_step(void)
 {
+    int now_reversing;
     output_speed = 0.0;
     output_motor_1 = 0.0;
     output_motor_2 = 0.0;
     Step();
+    now_reversing = output_motor_2 < -1e-9;
+    if (now_reversing && !was_reversing) reverse_episodes++;
+    was_reversing = now_reversing;
 }
 
 static void run_steps(int count)
@@ -109,6 +115,8 @@ static void reset_observers(void)
     max_steer_step = 0.0;
     reverse_seen = 0;
     reverse_steps = 0;
+    reverse_episodes = 0;
+    was_reversing = 0;
 }
 
 static void start_clear(void)
@@ -274,19 +282,21 @@ static int test_confirmed_backup(void)
         "the initial reverse disengagement phase must remain straight");
 }
 
-static int test_backup_one_shot(void)
+static int test_backup_retry_limit(void)
 {
     start_clear();
     input_fc = 5.0;
     input_fl = 8.0;
     input_fr = 8.0;
-    run_steps(30);
+    run_steps(80);
     if (require_true(reverse_seen,
-        "persistent valid close obstacle must produce one backup pulse")) return 1;
-    if (require_true(reverse_steps >= 16 && reverse_steps <= 25,
-        "bounded backup must honour 0.80 s minimum and 1.20 s hard cap")) return 1;
+        "persistent valid close obstacle must produce recovery backup")) return 1;
+    if (require_true(reverse_episodes == 2,
+        "one uncleared obstacle may use exactly two bounded recovery attempts")) return 1;
+    if (require_true(reverse_steps >= 32 && reverse_steps <= 50,
+        "two bounded backups must each honour their finite time cap")) return 1;
     return require_true(output_speed == 0.0,
-        "same uncleared obstacle must not repeatedly re-arm backup");
+        "same uncleared obstacle must stop after the two-attempt safety limit");
 }
 
 static int test_backup_distance_release(void)
@@ -620,7 +630,7 @@ int main(int argc, char **argv)
     else if (!strcmp(name, "deadband")) rc = test_normal_deadband();
     else if (!strcmp(name, "raw_stop")) rc = test_raw_emergency();
     else if (!strcmp(name, "backup")) rc = test_confirmed_backup();
-    else if (!strcmp(name, "backup_once")) rc = test_backup_one_shot();
+    else if (!strcmp(name, "backup_retry_limit")) rc = test_backup_retry_limit();
     else if (!strcmp(name, "backup_release")) rc = test_backup_distance_release();
     else if (!strcmp(name, "backup_right_arc")) rc = test_backup_countersteers_for_right_escape();
     else if (!strcmp(name, "backup_left_arc")) rc = test_backup_countersteers_for_left_escape();

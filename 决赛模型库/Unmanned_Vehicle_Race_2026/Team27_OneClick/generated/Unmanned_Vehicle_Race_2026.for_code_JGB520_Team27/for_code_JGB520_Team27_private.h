@@ -7,7 +7,7 @@
  * 该文件由MWORKS内核代码生成器自动生成。
  *
  * 文件名称: for_code_JGB520_Team27_private.h
- * 生成时间: 2026-08-20 19:54:27
+ * 生成时间: 2026-08-20 20:14:28
  *
 ********************************************************************************/
 
@@ -496,12 +496,18 @@ struct for_code_jgb520_team27ChartDw
   MwbDouble corridorPassAllowed;
   MwbDouble tightStopDistance;
   MwbDouble tightStopRequest;
+  MwbDouble normalStopRequest;
+  MwbDouble stopRecoveryTimer;
+  MwbDouble stopRecoveryDelay;
   MwbDouble backupState;
   MwbDouble backupTimer;
   MwbDouble closeConfirmTimer;
   MwbDouble escapeFailureTimer;
   MwbDouble escapeFailureTime;
   MwbDouble backupEscapeDirection;
+  MwbDouble lastBackupEscapeDirection;
+  MwbDouble backupCycleCount;
+  MwbDouble backupCycleLimit;
   MwbDouble backupArmed;
   MwbDouble controlStep;
   MwbDouble backupConfirmTime;

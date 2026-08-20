@@ -46,5 +46,5 @@ if ($LASTEXITCODE -ne 0) { throw "Generated-code post-processing failed with exi
 Write-Host "2/3 MWORKS-generated sources passed the read-only audit: $($generatedDir.FullName)" -ForegroundColor Green
 & (Join-Path $oneClickRoot 'tests\run_controller_tests.ps1') -GeneratedRoot $generatedRoot
 if ($LASTEXITCODE -ne 0) { throw "Controller regression failed with exit code $LASTEXITCODE" }
-Write-Host '3/3 All 35 V3.8 fixed-ultrasonic/Ackermann generated-code scenarios passed.' -ForegroundColor Green
+Write-Host '3/3 All 35 V3.9 fixed-ultrasonic/Ackermann generated-code scenarios passed.' -ForegroundColor Green
 Write-Host 'COMPETITION LOCK: local audit is complete. Download only with the official MWORKS ExternalMode tool.' -ForegroundColor Yellow

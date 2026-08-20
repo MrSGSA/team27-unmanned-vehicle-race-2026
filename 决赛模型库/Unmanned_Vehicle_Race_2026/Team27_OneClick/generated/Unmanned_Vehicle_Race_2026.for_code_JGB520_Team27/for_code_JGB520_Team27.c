@@ -7,7 +7,7 @@
  * 该文件由MWORKS内核代码生成器自动生成。
  *
  * 文件名称: for_code_JGB520_Team27.c
- * 生成时间: 2026-08-20 19:54:27
+ * 生成时间: 2026-08-20 20:14:28
  *
 ********************************************************************************/
 
@@ -607,12 +607,18 @@ void for_code_jgb520_team27ChartInit(MwbDouble sr, MwbDouble fl, MwbDouble sl, M
   localDw->corridorPassAllowed = (MwbDouble)((0));
   localDw->tightStopDistance = (MwbDouble)((18));
   localDw->tightStopRequest = (MwbDouble)((0));
+  localDw->normalStopRequest = (MwbDouble)((0));
+  localDw->stopRecoveryTimer = (MwbDouble)((0));
+  localDw->stopRecoveryDelay = 0.2;
   localDw->backupState = (MwbDouble)((0));
   localDw->backupTimer = (MwbDouble)((0));
   localDw->closeConfirmTimer = (MwbDouble)((0));
   localDw->escapeFailureTimer = (MwbDouble)((0));
   localDw->escapeFailureTime = 0.45;
   localDw->backupEscapeDirection = (MwbDouble)((0));
+  localDw->lastBackupEscapeDirection = (MwbDouble)((0));
+  localDw->backupCycleCount = (MwbDouble)((0));
+  localDw->backupCycleLimit = (MwbDouble)((2));
   localDw->backupArmed = (MwbDouble)((1));
   localDw->controlStep = 0.05;
   localDw->backupConfirmTime = 0.1;
@@ -792,11 +798,26 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       localDw->tightStopRequest = (MwbDouble)((0));
     }
+    if (fcRaw >= 2 && fcRaw <= 250 && ((fc <= localDw->frontEmergency || fcRaw <= localDw->frontEmergency) && !((localDw->directionLock 
+    > 0.5 && localDw->leftPathAllowed > 0.5 || localDw->directionLock < (-0.5) && localDw->rightPathAllowed > 0.5)) || localDw->flEff 
+    <= localDw->frontSectorEmergency && localDw->rightPathAllowed < 0.5 || localDw->frEff <= localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    < 0.5 || localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5))
+    {
+      localDw->normalStopRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->normalStopRequest = (MwbDouble)((0));
+    }
     if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease && localDw->frEff > localDw->frontDiagonalRelease)
     {
       localDw->backupArmed = (MwbDouble)((1));
+      localDw->backupCycleCount = (MwbDouble)((0));
+      localDw->lastBackupEscapeDirection = (MwbDouble)((0));
       localDw->closeConfirmTimer = (MwbDouble)((0));
       localDw->escapeFailureTimer = (MwbDouble)((0));
+      localDw->stopRecoveryTimer = (MwbDouble)((0));
     }
     else
     {
@@ -811,6 +832,14 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     else
     {
       localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    if (localDw->backupState < 0.5 && localDw->normalStopRequest > 0.5 && localDw->backupCycleCount < localDw->backupCycleLimit)
+    {
+      localDw->stopRecoveryTimer = localDw->stopRecoveryTimer + localDw->controlStep;
+    }
+    else
+    {
+      localDw->stopRecoveryTimer = (MwbDouble)((0));
     }
     if (localDw->backupState > 2.5)
     {
@@ -866,7 +895,8 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       if (localDw->backupArmed > 0.5 && (localDw->tightStopRequest > 0.5 || localDw->escapeFailureTimer >= localDw->escapeFailureTime 
       || localDw->flEff <= localDw->pocketDistance && localDw->frEff <= localDw->pocketDistance || fc > 0 && fc <= localDw->frontStrong 
-      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5))
+      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5) || localDw->stopRecoveryTimer >= localDw->stopRecoveryDelay 
+      && localDw->backupCycleCount < localDw->backupCycleLimit)
       {
         localDw->closeConfirmTimer = localDw->closeConfirmTimer + localDw->controlStep;
       }
@@ -884,7 +914,19 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
         {
           localDw->backupEscapeDirection = (MwbDouble)(((-1)));
         }
-        else if (localDw->leftScore > localDw->rightScore)
+        else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->backupCycleCount > 0.5 && localDw->lastBackupEscapeDirection > 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->backupCycleCount > 0.5 && localDw->lastBackupEscapeDirection < (-0.5))
         {
           localDw->backupEscapeDirection = (MwbDouble)((1));
         }
@@ -892,10 +934,13 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
         {
           localDw->backupEscapeDirection = (MwbDouble)(((-1)));
         }
+        localDw->lastBackupEscapeDirection = localDw->backupEscapeDirection;
+        localDw->backupCycleCount = localDw->backupCycleCount + (MwbDouble)(1);
         localDw->backupState = (MwbDouble)((1));
         localDw->backupTimer = (MwbDouble)((0));
         localDw->closeConfirmTimer = (MwbDouble)((0));
         localDw->escapeFailureTimer = (MwbDouble)((0));
+        localDw->stopRecoveryTimer = (MwbDouble)((0));
         localDw->backupArmed = (MwbDouble)((0));
         localDw->desiredDirection = (MwbDouble)((0));
         localDw->candidateDirection = (MwbDouble)((0));
@@ -1375,11 +1420,26 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       localDw->tightStopRequest = (MwbDouble)((0));
     }
+    if (fcRaw >= 2 && fcRaw <= 250 && ((fc <= localDw->frontEmergency || fcRaw <= localDw->frontEmergency) && !((localDw->directionLock 
+    > 0.5 && localDw->leftPathAllowed > 0.5 || localDw->directionLock < (-0.5) && localDw->rightPathAllowed > 0.5)) || localDw->flEff 
+    <= localDw->frontSectorEmergency && localDw->rightPathAllowed < 0.5 || localDw->frEff <= localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    < 0.5 || localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5))
+    {
+      localDw->normalStopRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->normalStopRequest = (MwbDouble)((0));
+    }
     if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease && localDw->frEff > localDw->frontDiagonalRelease)
     {
       localDw->backupArmed = (MwbDouble)((1));
+      localDw->backupCycleCount = (MwbDouble)((0));
+      localDw->lastBackupEscapeDirection = (MwbDouble)((0));
       localDw->closeConfirmTimer = (MwbDouble)((0));
       localDw->escapeFailureTimer = (MwbDouble)((0));
+      localDw->stopRecoveryTimer = (MwbDouble)((0));
     }
     else
     {
@@ -1394,6 +1454,14 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     else
     {
       localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    if (localDw->backupState < 0.5 && localDw->normalStopRequest > 0.5 && localDw->backupCycleCount < localDw->backupCycleLimit)
+    {
+      localDw->stopRecoveryTimer = localDw->stopRecoveryTimer + localDw->controlStep;
+    }
+    else
+    {
+      localDw->stopRecoveryTimer = (MwbDouble)((0));
     }
     if (localDw->backupState > 2.5)
     {
@@ -1449,7 +1517,8 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       if (localDw->backupArmed > 0.5 && (localDw->tightStopRequest > 0.5 || localDw->escapeFailureTimer >= localDw->escapeFailureTime 
       || localDw->flEff <= localDw->pocketDistance && localDw->frEff <= localDw->pocketDistance || fc > 0 && fc <= localDw->frontStrong 
-      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5))
+      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5) || localDw->stopRecoveryTimer >= localDw->stopRecoveryDelay 
+      && localDw->backupCycleCount < localDw->backupCycleLimit)
       {
         localDw->closeConfirmTimer = localDw->closeConfirmTimer + localDw->controlStep;
       }
@@ -1467,7 +1536,19 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
         {
           localDw->backupEscapeDirection = (MwbDouble)(((-1)));
         }
-        else if (localDw->leftScore > localDw->rightScore)
+        else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->backupCycleCount > 0.5 && localDw->lastBackupEscapeDirection > 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->backupCycleCount > 0.5 && localDw->lastBackupEscapeDirection < (-0.5))
         {
           localDw->backupEscapeDirection = (MwbDouble)((1));
         }
@@ -1475,10 +1556,13 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
         {
           localDw->backupEscapeDirection = (MwbDouble)(((-1)));
         }
+        localDw->lastBackupEscapeDirection = localDw->backupEscapeDirection;
+        localDw->backupCycleCount = localDw->backupCycleCount + (MwbDouble)(1);
         localDw->backupState = (MwbDouble)((1));
         localDw->backupTimer = (MwbDouble)((0));
         localDw->closeConfirmTimer = (MwbDouble)((0));
         localDw->escapeFailureTimer = (MwbDouble)((0));
+        localDw->stopRecoveryTimer = (MwbDouble)((0));
         localDw->backupArmed = (MwbDouble)((0));
         localDw->desiredDirection = (MwbDouble)((0));
         localDw->candidateDirection = (MwbDouble)((0));

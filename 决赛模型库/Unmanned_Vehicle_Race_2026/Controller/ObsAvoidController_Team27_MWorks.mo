@@ -1,5 +1,5 @@
 model ObsAvoidController_Team27_MWorks
-  "Team27纯MWORKS五固定超声波阿克曼连续避障控制器V3.8"
+  "Team27纯MWORKS五固定超声波阿克曼连续避障控制器V3.9"
   extends ModelWorkspace;
   import SysplorerEmbeddedCoder.Types.*;
   import BaseWorkspace.*;
@@ -311,15 +311,22 @@ ContinueIntervalLength=100,ContinueTimeVector)),
     SysplorerEmbeddedCoder.Types.Auto corridorPassAllowed(start=0) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto tightStopDistance(start=18) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto tightStopRequest(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto normalStopRequest(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto stopRecoveryTimer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto stopRecoveryDelay(start=0.20) annotation(__MWORKS(internalShare=true));
     // No rear-facing sensor remains in the V3 layout.  Backup is therefore a
-    // one-shot clearance manoeuvre guarded by a valid raw centre reading, a
-    // confirmation delay, a straight disengagement phase and a hard time cap.
+    // strictly bounded clearance manoeuvre guarded by a valid raw centre
+    // reading, confirmation delays, a straight disengagement phase and a hard
+    // time/attempt cap.
     SysplorerEmbeddedCoder.Types.Auto backupState(start=0) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto backupTimer(start=0) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto closeConfirmTimer(start=0) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto escapeFailureTimer(start=0) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto escapeFailureTime(start=0.45) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto backupEscapeDirection(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto lastBackupEscapeDirection(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupCycleCount(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupCycleLimit(start=2) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto backupArmed(start=1) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto controlStep(start=0.05) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto backupConfirmTime(start=0.10) annotation(__MWORKS(internalShare=true));
@@ -423,6 +430,23 @@ ContinueIntervalLength=100,ContinueTimeVector)),
         tightStopRequest := 0;
       end if;
 
+      // Mirror every normal-state branch which would command zero speed for a
+      // validly observed obstacle.  This closes the former dead state after a
+      // first backup: if the vehicle is still pinned and cannot reach the wide
+      // three-ray re-arm distance, a second bounded reverse may still recover.
+      if fcRaw >= 2 and fcRaw <= 250 and
+         (((fc <= frontEmergency or fcRaw <= frontEmergency) and
+           not ((directionLock > 0.5 and leftPathAllowed > 0.5) or
+                (directionLock < -0.5 and rightPathAllowed > 0.5))) or
+          (flEff <= frontSectorEmergency and rightPathAllowed < 0.5) or
+          (frEff <= frontSectorEmergency and leftPathAllowed < 0.5) or
+          (avoidRequest > 0.5 and leftPathAllowed < 0.5 and
+           rightPathAllowed < 0.5 and corridorPassAllowed < 0.5)) then
+        normalStopRequest := 1;
+      else
+        normalStopRequest := 0;
+      end if;
+
       // backupState: 0=normal, 1=stop/centre, 2=staged reverse,
       // 3=stationary settle.  The pre-stop interval lets the external steering
       // rate limiter reach centre before any blind rearward motion begins.
@@ -431,8 +455,11 @@ ContinueIntervalLength=100,ContinueTimeVector)),
       if fc > frontRelease and flEff > frontDiagonalRelease and 
          frEff > frontDiagonalRelease then
         backupArmed := 1;
+        backupCycleCount := 0;
+        lastBackupEscapeDirection := 0;
         closeConfirmTimer := 0;
         escapeFailureTimer := 0;
+        stopRecoveryTimer := 0;
       end if;
 
       // A single front ray may be the only ray that sees an obstacle corner.
@@ -447,6 +474,13 @@ ContinueIntervalLength=100,ContinueTimeVector)),
         escapeFailureTimer := escapeFailureTimer + controlStep;
       else
         escapeFailureTimer := 0;
+      end if;
+
+      if backupState < 0.5 and normalStopRequest > 0.5 and
+         backupCycleCount < backupCycleLimit then
+        stopRecoveryTimer := stopRecoveryTimer + controlStep;
+      else
+        stopRecoveryTimer := 0;
       end if;
 
       if backupState > 2.5 then
@@ -483,12 +517,14 @@ ContinueIntervalLength=100,ContinueTimeVector)),
         // A single extreme ray first receives a timed maximum-turn escape.  A
         // state which would otherwise remain stopped may enter the same bounded
         // reverse reset immediately after confirmation.
-        if backupArmed > 0.5 and 
-           (tightStopRequest > 0.5 or 
-            escapeFailureTimer >= escapeFailureTime or 
-            (flEff <= pocketDistance and frEff <= pocketDistance) or 
-            (fc > 0 and fc <= frontStrong and 
-             leftPathAllowed < 0.5 and rightPathAllowed < 0.5)) then
+        if (backupArmed > 0.5 and
+            (tightStopRequest > 0.5 or
+             escapeFailureTimer >= escapeFailureTime or
+             (flEff <= pocketDistance and frEff <= pocketDistance) or
+             (fc > 0 and fc <= frontStrong and
+              leftPathAllowed < 0.5 and rightPathAllowed < 0.5))) or
+           (stopRecoveryTimer >= stopRecoveryDelay and
+            backupCycleCount < backupCycleLimit) then
           closeConfirmTimer := closeConfirmTimer + controlStep;
         else
           closeConfirmTimer := 0;
@@ -503,15 +539,26 @@ ContinueIntervalLength=100,ContinueTimeVector)),
             backupEscapeDirection := 1;
           elseif rightPathAllowed > 0.5 and leftPathAllowed < 0.5 then
             backupEscapeDirection := -1;
-          elseif leftScore > rightScore then
+          elseif leftScore > rightScore + directionHysteresis then
+            backupEscapeDirection := 1;
+          elseif rightScore > leftScore + directionHysteresis then
+            backupEscapeDirection := -1;
+          elseif backupCycleCount > 0.5 and
+                 lastBackupEscapeDirection > 0.5 then
+            backupEscapeDirection := -1;
+          elseif backupCycleCount > 0.5 and
+                 lastBackupEscapeDirection < -0.5 then
             backupEscapeDirection := 1;
           else
             backupEscapeDirection := -1;
           end if;
+          lastBackupEscapeDirection := backupEscapeDirection;
+          backupCycleCount := backupCycleCount + 1;
           backupState := 1;
           backupTimer := 0;
           closeConfirmTimer := 0;
           escapeFailureTimer := 0;
+          stopRecoveryTimer := 0;
           backupArmed := 0;
           desiredDirection := 0;
           candidateDirection := 0;

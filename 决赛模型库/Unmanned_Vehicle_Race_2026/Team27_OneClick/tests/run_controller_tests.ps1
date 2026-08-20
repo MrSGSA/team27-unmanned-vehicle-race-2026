@@ -50,7 +50,7 @@ if ($LASTEXITCODE -ne 0) { throw "controller harness compile failed: $LASTEXITCO
 foreach ($scenario in 'clear', 'outside_warning', 'cw_tie',
     'left_open', 'right_open', 'dis2_fr', 'dis5_fl', 'dis4_sl',
     'dis3_sr', 'early_diagonal', 'deadband', 'raw_stop', 'backup',
-    'backup_once', 'backup_release', 'backup_right_arc', 'backup_left_arc',
+    'backup_retry_limit', 'backup_release', 'backup_right_arc', 'backup_left_arc',
     'tight_stop_backup', 'narrow_ray', 'invalid_ray',
     'corner_turnaway', 'persistent_corner', 'transient_corner',
     'release', 'path_veto', 'static_single', 'moving_bend',
@@ -59,4 +59,4 @@ foreach ($scenario in 'clear', 'outside_warning', 'cw_tie',
     & $exe $scenario
     if ($LASTEXITCODE -ne 0) { throw "controller scenario failed: $scenario" }
 }
-Write-Host 'OK: all 35 V3.8 fixed-ultrasonic/Ackermann controller scenarios passed.' -ForegroundColor Green
+Write-Host 'OK: all 35 V3.9 fixed-ultrasonic/Ackermann controller scenarios passed.' -ForegroundColor Green

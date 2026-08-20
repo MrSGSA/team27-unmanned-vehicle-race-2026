@@ -48,7 +48,7 @@ def main():
     )
     all_generated = model_source + "\n" + extern_source
 
-    # V3.8五固定探头控制参数、平行走廊释放、带方向倒车和低速满舵约束必须全部来自
+    # V3.9五固定探头控制参数、平行走廊释放、停车恢复和双次有限倒车必须全部来自
     # MWORKS主模型生成代码。这里仅审计，绝不修改生成后的C代码。
     for token in (
         "frontWarn = (MwbDouble)((26))",
@@ -117,8 +117,14 @@ def main():
         "localDw->corridorPassAllowed = (MwbDouble)((0))",
         "localDw->tightStopDistance = (MwbDouble)((18))",
         "localDw->tightStopRequest = (MwbDouble)((1))",
+        "localDw->normalStopRequest = (MwbDouble)((1))",
+        "localDw->stopRecoveryDelay = 0.2",
+        "localDw->stopRecoveryTimer = localDw->stopRecoveryTimer + localDw->controlStep",
         "localDw->backupEscapeDirection = (MwbDouble)((1))",
         "localDw->backupEscapeDirection = (MwbDouble)(((-1)))",
+        "localDw->lastBackupEscapeDirection = localDw->backupEscapeDirection",
+        "localDw->backupCycleCount = localDw->backupCycleCount + (MwbDouble)(1)",
+        "localDw->backupCycleLimit = (MwbDouble)((2))",
         "*steer = -(localDw->backupSteerMagnitude)",
         "*steer = localDw->backupSteerMagnitude",
         "localDw->flEff <= localDw->pocketDistance",
@@ -195,7 +201,7 @@ def main():
     for token in ("steer_cmd(0.0)", "front_sensor_cmd(0.0)", "serialClose(fd)"):
         reject(model_source, token, f"non-official Terminate code detected: {token}")
 
-    print("OK: V3.8 low-speed full-lock escape, tight-stop reverse and counter-steered backup verified; no handwritten C controller")
+    print("OK: V3.9 stopped-state recovery, two-attempt counter-steered backup and invalid-front veto verified; no handwritten C controller")
 
 
 if __name__ == "__main__":
