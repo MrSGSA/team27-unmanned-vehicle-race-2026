@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Model>
-  <ModelInfo Name="for_code_JGB520_Team27" ModelChecksum="2ad89a66-420e-4e12-8452-1f0f940f2fef" FundamentalStepSize="0.05" NumPeriodicTasks="1" TID01EQ="1" StopTime="1" />
+  <ModelInfo Name="for_code_JGB520_Team27" ModelChecksum="ece0f0dc-16e1-42d9-8c6a-7b22d210223a" FundamentalStepSize="0.05" NumPeriodicTasks="1" TID01EQ="1" StopTime="1" />
 
   <SampleTimeConfig NumSampleTimes="1">
     <SampleTime TID="1" ClockTickStepSize="0.05" />

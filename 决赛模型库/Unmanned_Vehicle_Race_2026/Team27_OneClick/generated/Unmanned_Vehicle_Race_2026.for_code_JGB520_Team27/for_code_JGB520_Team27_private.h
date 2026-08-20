@@ -7,7 +7,7 @@
  * 该文件由MWORKS内核代码生成器自动生成。
  *
  * 文件名称: for_code_JGB520_Team27_private.h
- * 生成时间: 2026-08-20 14:01:17
+ * 生成时间: 2026-08-20 19:54:27
  *
 ********************************************************************************/
 
@@ -451,13 +451,29 @@ struct for_code_jgb520_team27ChartDw
   MwbDouble frontEmergency;
   MwbDouble frontRelease;
   MwbDouble frontSectorEmergency;
+  MwbDouble frontDiagonalWarn;
+  MwbDouble frontDiagonalRelease;
   MwbDouble sideEmergency;
   MwbDouble sideCorrection;
   MwbDouble scoreCap;
+  MwbDouble unknownForward;
+  MwbDouble unknownSide;
+  MwbDouble pathFrontMinimum;
+  MwbDouble pathSideMinimum;
+  MwbDouble frontCornerRelease;
+  MwbDouble trappedDistance;
   MwbDouble directionHysteresis;
+  MwbDouble directionSwitchMargin;
+  MwbDouble directionConfirmTime;
   MwbDouble normalDeadband;
   MwbDouble clockwiseBias;
   MwbDouble directionLock;
+  MwbDouble desiredDirection;
+  MwbDouble candidateDirection;
+  MwbDouble candidateTimer;
+  MwbDouble avoidRequest;
+  MwbDouble leftPathAllowed;
+  MwbDouble rightPathAllowed;
   MwbDouble flEff;
   MwbDouble frEff;
   MwbDouble slEff;
@@ -468,8 +484,35 @@ struct for_code_jgb520_team27ChartDw
   MwbDouble srCap;
   MwbDouble leftScore;
   MwbDouble rightScore;
+  MwbDouble leftSideReach;
+  MwbDouble rightSideReach;
   MwbDouble steeringMagnitude;
+  MwbDouble closestFront;
   MwbDouble normalSteer;
+  MwbDouble pocketDistance;
+  MwbDouble turnEscapeSpeed;
+  MwbDouble corridorCenterMinimum;
+  MwbDouble corridorCornerMinimum;
+  MwbDouble corridorPassAllowed;
+  MwbDouble tightStopDistance;
+  MwbDouble tightStopRequest;
+  MwbDouble backupState;
+  MwbDouble backupTimer;
+  MwbDouble closeConfirmTimer;
+  MwbDouble escapeFailureTimer;
+  MwbDouble escapeFailureTime;
+  MwbDouble backupEscapeDirection;
+  MwbDouble backupArmed;
+  MwbDouble controlStep;
+  MwbDouble backupConfirmTime;
+  MwbDouble backupMinTime;
+  MwbDouble backupMaxTime;
+  MwbDouble backupPreStopTime;
+  MwbDouble backupStraightTime;
+  MwbDouble backupSteerMagnitude;
+  MwbDouble backupSettleTime;
+  MwbDouble backupRelease;
+  MwbDouble backupSpeedCmd;
   MwbInt8 is_active_chart;
 };
 

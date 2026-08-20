@@ -1,5 +1,5 @@
 model ObsAvoidController_Team27_MWorks
-  "Team27纯MWORKS五固定超声波阿克曼连续避障控制器V3"
+  "Team27纯MWORKS五固定超声波阿克曼连续避障控制器V3.8"
   extends ModelWorkspace;
   import SysplorerEmbeddedCoder.Types.*;
   import BaseWorkspace.*;
@@ -77,7 +77,7 @@ ContinueIntervalLength=100,ContinueTimeVector)),
   Chart chart annotation(Placement(transformation(origin={0,0},extent={{-45,-45},{45,45}})));
   SteeringRateLimiter steeringRateLimiter;
   SysplorerEmbeddedCoder.Discontinuities.Saturation steeringLimit(
-    zeroCross=true,upLimit=0.55,lowLimit=-0.55);
+    zeroCross=true,upLimit=0.58,lowLimit=-0.58);
 
   block DistanceConditioner "Fast ultrasonic validity/dropout conditioner"
     annotation(__MWORKS(
@@ -202,9 +202,9 @@ ContinueIntervalLength=100,ContinueTimeVector)),
         SampleTime(group="D1")=0.05),
         PortLabels(labelType="CustomType",labels(
           label(text="+",instance="u1"),label(text="-",instance="u2")))));
-    // 0.12 rad/50 ms reaches full steering in about 0.25 s without a step jump.
+    // 0.16 rad/50 ms reaches 0.58 rad in about 0.20 s without a step jump.
     SysplorerEmbeddedCoder.Discontinuities.Saturation stepLimit(
-      zeroCross=true,upLimit=0.12,lowLimit=-0.12);
+      zeroCross=true,upLimit=0.16,lowLimit=-0.16);
     SysplorerEmbeddedCoder.MathOperation.Sum advance(isSaturate=false,inputs="++") 
       annotation(__MWORKS(BlockSystem(
         Instance(u(u1(Type(ref="double"),Dimension=1),u2(Type(ref="double"),Dimension=1)),
@@ -261,18 +261,34 @@ ContinueIntervalLength=100,ContinueTimeVector)),
 
     // Distances are centimetres.  Positive steering is vehicle-left and
     // negative steering is vehicle-right, confirmed on the real car.
-    SysplorerEmbeddedCoder.Types.Auto frontWarn(start=20) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontWarn(start=26) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto frontStrong(start=12) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto frontEmergency(start=5.5) annotation(__MWORKS(internalShare=true));
-    SysplorerEmbeddedCoder.Types.Auto frontRelease(start=25) annotation(__MWORKS(internalShare=true));
-    SysplorerEmbeddedCoder.Types.Auto frontSectorEmergency(start=6) annotation(__MWORKS(internalShare=true));
-    SysplorerEmbeddedCoder.Types.Auto sideEmergency(start=4.5) annotation(__MWORKS(internalShare=true));
-    SysplorerEmbeddedCoder.Types.Auto sideCorrection(start=8) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontRelease(start=30) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontSectorEmergency(start=4.5) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontDiagonalWarn(start=22) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontDiagonalRelease(start=26) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto sideEmergency(start=6) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto sideCorrection(start=10) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto scoreCap(start=40) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto unknownForward(start=10) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto unknownSide(start=8) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto pathFrontMinimum(start=9) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto pathSideMinimum(start=8) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto frontCornerRelease(start=10) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto trappedDistance(start=10) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto directionHysteresis(start=2.5) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto directionSwitchMargin(start=5) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto directionConfirmTime(start=0.10) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto normalDeadband(start=3) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto clockwiseBias(start=0.5) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto directionLock(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto desiredDirection(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto candidateDirection(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto candidateTimer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto avoidRequest(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto leftPathAllowed(start=1) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto rightPathAllowed(start=1) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto flEff(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto frEff(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto slEff(start=40) annotation(__MWORKS(internalShare=true));
@@ -283,8 +299,38 @@ ContinueIntervalLength=100,ContinueTimeVector)),
     SysplorerEmbeddedCoder.Types.Auto srCap(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto leftScore(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto rightScore(start=40) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto leftSideReach(start=40) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto rightSideReach(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto steeringMagnitude(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto closestFront(start=40) annotation(__MWORKS(internalShare=true));
     SysplorerEmbeddedCoder.Types.Auto normalSteer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto pocketDistance(start=11) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto turnEscapeSpeed(start=45) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto corridorCenterMinimum(start=18) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto corridorCornerMinimum(start=12) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto corridorPassAllowed(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto tightStopDistance(start=18) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto tightStopRequest(start=0) annotation(__MWORKS(internalShare=true));
+    // No rear-facing sensor remains in the V3 layout.  Backup is therefore a
+    // one-shot clearance manoeuvre guarded by a valid raw centre reading, a
+    // confirmation delay, a straight disengagement phase and a hard time cap.
+    SysplorerEmbeddedCoder.Types.Auto backupState(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupTimer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto closeConfirmTimer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto escapeFailureTimer(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto escapeFailureTime(start=0.45) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupEscapeDirection(start=0) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupArmed(start=1) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto controlStep(start=0.05) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupConfirmTime(start=0.10) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupMinTime(start=0.80) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupMaxTime(start=1.20) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupPreStopTime(start=0.20) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupStraightTime(start=0.20) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupSteerMagnitude(start=0.38) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupSettleTime(start=0.15) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupRelease(start=12) annotation(__MWORKS(internalShare=true));
+    SysplorerEmbeddedCoder.Types.Auto backupSpeedCmd(start=-55) annotation(__MWORKS(internalShare=true));
 
     block State "Continuous control state"
       annotation(__MWORKS(BlockSystem(blockKind=BlockKind.state,SampleTime(auto=true),State),
@@ -299,100 +345,356 @@ ContinueIntervalLength=100,ContinueTimeVector)),
     algorithm
       annotation(__MWORKS(BlockSystem(StateMachine(actionKind=ActionKind.entry or ActionKind.during))));
 
-      // Invalid peripheral channels are ignored rather than interpreted as a
-      // zero-distance wall.  A failed front-centre channel remains fail-safe.
-      if fl >= 2 then flEff := fl; else flEff := scoreCap; end if;
-      if fr >= 2 then frEff := fr; else frEff := scoreCap; end if;
-      if sl >= 2 then slEff := sl; else slEff := scoreCap; end if;
-      if sr >= 2 then srEff := sr; else srEff := scoreCap; end if;
+      // A persistent missing echo must never look like the widest passage.
+      // The conditioner already holds the last valid sample for 0.15 s; after
+      // that timeout use a finite conservative unknown value.  A failed fixed
+      // front-centre channel remains fail-safe and stops forward motion.
+      if fl >= 2 then flEff := fl; else flEff := unknownForward; end if;
+      if fr >= 2 then frEff := fr; else frEff := unknownForward; end if;
+      if sl >= 2 then slEff := sl; else slEff := unknownSide; end if;
+      if sr >= 2 then srEff := sr; else srEff := unknownSide; end if;
 
       if flEff < scoreCap then flCap := flEff; else flCap := scoreCap; end if;
       if frEff < scoreCap then frCap := frEff; else frCap := scoreCap; end if;
       if slEff < scoreCap then slCap := slEff; else slCap := scoreCap; end if;
       if srEff < scoreCap then srCap := srEff; else srCap := scoreCap; end if;
 
-      // Forward diagonal space dominates; 90-degree side clearance is a veto
-      // and a small score term, not a wall-following target.
-      leftScore := 0.82*flCap + 0.18*slCap;
-      rightScore := 0.82*frCap + 0.18*srCap + clockwiseBias;
+      // Passage score is limited by its narrowest supporting measurement.
+      // This prevents one long/specular front-diagonal echo from overruling a
+      // genuinely narrow same-side body clearance.
+      leftSideReach := 1.6*slCap;
+      if leftSideReach > scoreCap then leftSideReach := scoreCap; end if;
+      rightSideReach := 1.6*srCap;
+      if rightSideReach > scoreCap then rightSideReach := scoreCap; end if;
+      if flCap < leftSideReach then leftScore := flCap;
+      else leftScore := leftSideReach;
+      end if;
+      if frCap < rightSideReach then rightScore := frCap + clockwiseBias;
+      else rightScore := rightSideReach + clockwiseBias;
+      end if;
 
-      // Direction is held only while the fixed centre sensor still sees the
-      // obstacle.  There is no time-based turn and therefore no forced U-turn.
-      if fc > frontRelease then
-        directionLock := 0;
-      elseif fc > 0 and fc <= frontWarn then
-        if directionLock > 0.5 then
-          if (flEff < frontSectorEmergency or slEff < sideEmergency) and 
-             rightScore > leftScore + directionHysteresis then
-            directionLock := -1;
-          end if;
-        elseif directionLock < -0.5 then
-          if (frEff < frontSectorEmergency or srEff < sideEmergency) and 
-             leftScore > rightScore + directionHysteresis then
-            directionLock := 1;
-          end if;
-        elseif leftScore > rightScore + directionHysteresis and 
-               flEff > frontSectorEmergency and slEff > sideEmergency then
-          directionLock := 1;
-        elseif rightScore > leftScore + directionHysteresis and 
-               frEff > frontSectorEmergency and srEff > sideEmergency then
-          directionLock := -1;
-        elseif flEff > frontSectorEmergency and slEff > sideEmergency and 
-               not (frEff > frontSectorEmergency and srEff > sideEmergency) then
-          directionLock := 1;
+      if flEff >= pathFrontMinimum and slEff >= pathSideMinimum then
+        leftPathAllowed := 1;
+      else
+        leftPathAllowed := 0;
+      end if;
+      if frEff >= pathFrontMinimum and srEff >= pathSideMinimum then
+        rightPathAllowed := 1;
+      else
+        rightPathAllowed := 0;
+      end if;
+
+      // Both 90-degree sensors may be close after a successful avoidance while
+      // the car is already parallel to the boundary.  That is a valid narrow
+      // corridor, not a forward slit.  Release the body-side veto only when all
+      // three forward rays independently prove that straight motion is clear.
+      if fc >= corridorCenterMinimum and 
+         flEff >= corridorCornerMinimum and 
+         frEff >= corridorCornerMinimum then
+        corridorPassAllowed := 1;
+      else
+        corridorPassAllowed := 0;
+      end if;
+
+      // Steering and speed tiers must react to the closest forward-sector ray,
+      // not only the centre ray.  The video showed an open centre ray passing
+      // through a gap while a front corner was already at the obstacle.
+      closestFront := fc;
+      if flEff < closestFront then closestFront := flEff; end if;
+      if frEff < closestFront then closestFront := frEff; end if;
+
+      if (fc > 0 and fc <= frontWarn) or flEff <= frontDiagonalWarn or 
+         frEff <= frontDiagonalWarn then
+        avoidRequest := 1;
+      else
+        avoidRequest := 0;
+      end if;
+
+      // If avoidance is requested but neither Ackermann swept path is usable,
+      // normal control would command a stationary stop.  Convert a genuinely
+      // tight, validly observed stop into a bounded reverse reset.  The clear
+      // parallel-corridor exception remains strictly higher priority.
+      if avoidRequest > 0.5 and leftPathAllowed < 0.5 and 
+         rightPathAllowed < 0.5 and corridorPassAllowed < 0.5 and 
+         closestFront <= tightStopDistance and 
+         fcRaw >= 2 and fcRaw <= 250 then
+        tightStopRequest := 1;
+      else
+        tightStopRequest := 0;
+      end if;
+
+      // backupState: 0=normal, 1=stop/centre, 2=staged reverse,
+      // 3=stationary settle.  The pre-stop interval lets the external steering
+      // rate limiter reach centre before any blind rearward motion begins.
+      // A missing/invalid centre channel can only stop the car; it can never
+      // trigger blind reverse.  Re-arm only after all three forward rays clear.
+      if fc > frontRelease and flEff > frontDiagonalRelease and 
+         frEff > frontDiagonalRelease then
+        backupArmed := 1;
+        closeConfirmTimer := 0;
+        escapeFailureTimer := 0;
+      end if;
+
+      // A single front ray may be the only ray that sees an obstacle corner.
+      // First give maximum turn-away a real chance; only a continuously
+      // extreme reading proves that this manoeuvre failed.  This delayed path
+      // converts a tight-contact stall into one bounded reverse pulse without
+      // making an ordinary 6--20 cm bend reverse merely for being a bend.
+      if backupState < 0.5 and backupArmed > 0.5 and 
+         ((fcRaw >= 2 and fcRaw <= frontEmergency) or 
+          (flEff <= frontSectorEmergency and frEff > frontSectorEmergency) or 
+          (frEff <= frontSectorEmergency and flEff > frontSectorEmergency)) then
+        escapeFailureTimer := escapeFailureTimer + controlStep;
+      else
+        escapeFailureTimer := 0;
+      end if;
+
+      if backupState > 2.5 then
+        backupTimer := backupTimer + controlStep;
+        if backupTimer >= backupSettleTime then
+          backupState := 0;
+          backupTimer := 0;
+          // Geometry changed while reversing: never reuse the old choice.
+          directionLock := 0;
+          desiredDirection := 0;
+          candidateDirection := 0;
+          candidateTimer := 0;
+          backupEscapeDirection := 0;
+        end if;
+      elseif backupState > 1.5 then
+        backupTimer := backupTimer + controlStep;
+        if not (fcRaw >= 2 and fcRaw <= 250) or backupTimer >= backupMaxTime or 
+           (backupTimer >= backupMinTime and fc >= backupRelease and 
+            flEff >= frontCornerRelease and frEff >= frontCornerRelease) then
+          backupState := 3;
+          backupTimer := 0;
+        end if;
+      elseif backupState > 0.5 then
+        backupTimer := backupTimer + controlStep;
+        if not (fcRaw >= 2 and fcRaw <= 250) then
+          backupState := 3;
+          backupTimer := 0;
+        elseif backupTimer >= backupPreStopTime then
+          backupState := 2;
+          backupTimer := 0;
+        end if;
+      else
+        // Emergency stop and permission to reverse are deliberately separate.
+        // A single extreme ray first receives a timed maximum-turn escape.  A
+        // state which would otherwise remain stopped may enter the same bounded
+        // reverse reset immediately after confirmation.
+        if backupArmed > 0.5 and 
+           (tightStopRequest > 0.5 or 
+            escapeFailureTimer >= escapeFailureTime or 
+            (flEff <= pocketDistance and frEff <= pocketDistance) or 
+            (fc > 0 and fc <= frontStrong and 
+             leftPathAllowed < 0.5 and rightPathAllowed < 0.5)) then
+          closeConfirmTimer := closeConfirmTimer + controlStep;
         else
-          // Clockwise race direction is only the final near-tie fallback.
-          directionLock := -1;
+          closeConfirmTimer := 0;
+        end if;
+
+        if closeConfirmTimer >= backupConfirmTime then
+          // Store the forward escape side before clearing the old lock.  During
+          // reverse the front wheels steer oppositely, rotating the nose toward
+          // this larger forward passage.  A near tie keeps the clockwise right
+          // preference already encoded in rightScore.
+          if leftPathAllowed > 0.5 and rightPathAllowed < 0.5 then
+            backupEscapeDirection := 1;
+          elseif rightPathAllowed > 0.5 and leftPathAllowed < 0.5 then
+            backupEscapeDirection := -1;
+          elseif leftScore > rightScore then
+            backupEscapeDirection := 1;
+          else
+            backupEscapeDirection := -1;
+          end if;
+          backupState := 1;
+          backupTimer := 0;
+          closeConfirmTimer := 0;
+          escapeFailureTimer := 0;
+          backupArmed := 0;
+          desiredDirection := 0;
+          candidateDirection := 0;
+          candidateTimer := 0;
         end if;
       end if;
 
-      if fc <= frontEmergency or 
-         (fcRaw >= 2 and fcRaw <= frontEmergency) or 
-         (fc < 7 and flEff < frontSectorEmergency and frEff < frontSectorEmergency) then
-        speed := 0;
-      elseif directionLock > 0.5 or directionLock < -0.5 then
-        if fc <= 8 then speed := 55;
-        elseif fc <= frontStrong then speed := 65;
-        else speed := 85;
+      // A direction is confirmed for two control periods before locking.  A
+      // locked turn may switch only for a hard path veto or a large, persistent
+      // bottleneck advantage.  Release is based on centre plus the selected
+      // forward ray, so a single wall echo cannot hold a full-lock U-turn.
+      if backupState < 0.5 then
+        if directionLock > 0.5 then
+          if (fc > frontRelease and frEff > frontDiagonalRelease) then
+            directionLock := 0;
+            candidateDirection := 0;
+            candidateTimer := 0;
+          elseif rightPathAllowed > 0.5 and 
+                 (leftPathAllowed < 0.5 or 
+                  rightScore > leftScore + directionSwitchMargin) then
+            directionLock := -1;
+            candidateDirection := 0;
+            candidateTimer := 0;
+          elseif leftPathAllowed < 0.5 and rightPathAllowed < 0.5 then
+            directionLock := 0;
+          end if;
+        elseif directionLock < -0.5 then
+          if (fc > frontRelease and flEff > frontDiagonalRelease) then
+            directionLock := 0;
+            candidateDirection := 0;
+            candidateTimer := 0;
+          elseif leftPathAllowed > 0.5 and 
+                 (rightPathAllowed < 0.5 or 
+                  leftScore > rightScore + directionSwitchMargin) then
+            directionLock := 1;
+            candidateDirection := 0;
+            candidateTimer := 0;
+          elseif leftPathAllowed < 0.5 and rightPathAllowed < 0.5 then
+            directionLock := 0;
+          end if;
+        else
+          desiredDirection := 0;
+          if avoidRequest > 0.5 then
+            if leftPathAllowed > 0.5 and rightPathAllowed < 0.5 then
+              desiredDirection := 1;
+            elseif rightPathAllowed > 0.5 and leftPathAllowed < 0.5 then
+              desiredDirection := -1;
+            elseif leftPathAllowed > 0.5 and rightPathAllowed > 0.5 then
+              if leftScore > rightScore + directionHysteresis then
+                desiredDirection := 1;
+              else
+                // Right is only the near-tie fallback for the clockwise race.
+                desiredDirection := -1;
+              end if;
+            end if;
+          end if;
+
+          if desiredDirection > 0.5 or desiredDirection < -0.5 then
+            if (candidateDirection > 0.5 and desiredDirection > 0.5) or 
+               (candidateDirection < -0.5 and desiredDirection < -0.5) then
+              candidateTimer := candidateTimer + controlStep;
+            else
+              candidateDirection := desiredDirection;
+              candidateTimer := controlStep;
+            end if;
+            if candidateTimer >= directionConfirmTime then
+              directionLock := candidateDirection;
+              candidateDirection := 0;
+              candidateTimer := 0;
+            end if;
+          else
+            candidateDirection := 0;
+            candidateTimer := 0;
+          end if;
         end if;
-      elseif flEff < 8 or frEff < 8 or slEff < sideEmergency or srEff < sideEmergency then
-        speed := 70;
-      elseif fc <= 30 or flEff < 15 or frEff < 15 then
+      end if;
+
+      if backupState > 2.5 then
+        speed := 0;
+      elseif backupState > 1.5 then
+        speed := backupSpeedCmd;
+      elseif backupState > 0.5 then
+        speed := 0;
+      elseif fc <= frontEmergency or 
+         (fcRaw >= 2 and fcRaw <= frontEmergency) then
+        // Stop for two samples while the open-side direction locks, then use a
+        // very low forward turn only when that selected swept path is valid.
+        if (directionLock > 0.5 and leftPathAllowed > 0.5) or 
+           (directionLock < -0.5 and rightPathAllowed > 0.5) then
+          speed := turnEscapeSpeed;
+        else
+          speed := 0;
+        end if;
+      elseif flEff <= frontSectorEmergency and 
+             frEff > frontSectorEmergency and rightPathAllowed > 0.5 then
+        speed := turnEscapeSpeed;
+      elseif frEff <= frontSectorEmergency and 
+             flEff > frontSectorEmergency and leftPathAllowed > 0.5 then
+        speed := turnEscapeSpeed;
+      elseif flEff <= frontSectorEmergency or frEff <= frontSectorEmergency then
+        speed := 0;
+      elseif avoidRequest > 0.5 and leftPathAllowed < 0.5 and 
+             rightPathAllowed < 0.5 and corridorPassAllowed < 0.5 then
+        // Never drive deeper into a slit which neither swept path can accept.
+        speed := 0;
+      elseif corridorPassAllowed > 0.5 and leftPathAllowed < 0.5 and 
+             rightPathAllowed < 0.5 then
+        // Keep enough momentum to leave a parallel boundary/corridor.
+        speed := 90;
+      elseif directionLock > 0.5 or directionLock < -0.5 then
+        if closestFront <= 8 then speed := turnEscapeSpeed;
+        elseif closestFront <= 11 then speed := 70;
+        elseif closestFront <= 16 then speed := 100;
+        else speed := 130;
+        end if;
+      elseif avoidRequest > 0.5 then
+        // Direction confirmation lasts only two samples; keep useful momentum.
         speed := 110;
+      elseif flEff < 8 or frEff < 8 or slEff < sideEmergency or srEff < sideEmergency then
+        speed := 90;
+      elseif fc <= 32 or flEff < 26 or frEff < 26 then
+        speed := 140;
       else
         speed := 160;
       end if;
 
-      // A very close 90-degree wall is an immediate swept-body veto.
-      if slEff < sideEmergency and not (srEff < sideEmergency) then
-        steer := -0.55;
+      // A very close 90-degree wall is an immediate swept-body veto.  Reverse
+      // begins straight to break contact, then applies moderate counter-steer;
+      // full steering is deliberately reserved for the observed forward move.
+      if backupState > 2.5 then
+        steer := 0;
+      elseif backupState > 1.5 then
+        if backupTimer < backupStraightTime then
+          steer := 0;
+        elseif backupEscapeDirection > 0.5 then
+          steer := -backupSteerMagnitude;
+        elseif backupEscapeDirection < -0.5 then
+          steer := backupSteerMagnitude;
+        else
+          steer := 0;
+        end if;
+      elseif backupState > 0.5 then
+        steer := 0;
+      elseif flEff <= frontSectorEmergency and 
+             frEff > frontSectorEmergency and rightPathAllowed > 0.5 then
+        steer := -0.58;
+        directionLock := -1;
+      elseif frEff <= frontSectorEmergency and 
+             flEff > frontSectorEmergency and leftPathAllowed > 0.5 then
+        steer := 0.58;
+        directionLock := 1;
+      elseif slEff < sideEmergency and not (srEff < sideEmergency) then
+        steer := -0.58;
         directionLock := -1;
       elseif srEff < sideEmergency and not (slEff < sideEmergency) then
-        steer := 0.55;
+        steer := 0.58;
         directionLock := 1;
+      elseif avoidRequest > 0.5 and leftPathAllowed < 0.5 and 
+             rightPathAllowed < 0.5 and corridorPassAllowed < 0.5 then
+        steer := 0;
       elseif directionLock > 0.5 or directionLock < -0.5 then
-        if fc <= 8 then steeringMagnitude := 0.55;
-        elseif fc <= frontStrong then steeringMagnitude := 0.48;
-        elseif fc <= 16 then steeringMagnitude := 0.40;
-        else steeringMagnitude := 0.30;
+        if closestFront <= 12 then steeringMagnitude := 0.58;
+        elseif closestFront <= 18 then steeringMagnitude := 0.56;
+        else steeringMagnitude := 0.48;
         end if;
         steer := directionLock*steeringMagnitude;
       else
         // Continuous free-space steering.  It intentionally permits a small
-        // smooth weave, but deadband and +/-0.24 normal cap prevent chatter.
-        if flCap - frCap > normalDeadband or frCap - flCap > normalDeadband then
-          normalSteer := 0.012*(flCap - frCap);
+        // smooth weave, but deadband and +/-0.30 normal cap prevent chatter.
+        if leftScore - rightScore > normalDeadband or 
+           rightScore - leftScore > normalDeadband then
+          normalSteer := 0.020*(leftScore - rightScore);
         else
           normalSteer := 0;
         end if;
         if slEff < sideCorrection then
-          normalSteer := normalSteer - 0.045*(sideCorrection - slEff);
+          normalSteer := normalSteer - 0.055*(sideCorrection - slEff);
         end if;
         if srEff < sideCorrection then
-          normalSteer := normalSteer + 0.045*(sideCorrection - srEff);
+          normalSteer := normalSteer + 0.055*(sideCorrection - srEff);
         end if;
-        if normalSteer > 0.24 then steer := 0.24;
-        elseif normalSteer < -0.24 then steer := -0.24;
+        if normalSteer > 0.40 then steer := 0.40;
+        elseif normalSteer < -0.40 then steer := -0.40;
         else steer := normalSteer;
         end if;
       end if;

@@ -7,7 +7,7 @@
  * 该文件由MWORKS内核代码生成器自动生成。
  *
  * 文件名称: for_code_JGB520_Team27.c
- * 生成时间: 2026-08-20 14:01:17
+ * 生成时间: 2026-08-20 19:54:27
  *
 ********************************************************************************/
 
@@ -557,18 +557,34 @@ void for_code_jgb520_team27ChartInit(MwbDouble sr, MwbDouble fl, MwbDouble sl, M
   speed, MwbDouble* steer, MwbDouble* gapS, MwbDouble* servo, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27ChartB* 
   localB, struct for_code_jgb520_team27ChartDw* localDw)
 {
-  localDw->frontWarn = (MwbDouble)((20));
+  localDw->frontWarn = (MwbDouble)((26));
   localDw->frontStrong = (MwbDouble)((12));
   localDw->frontEmergency = 5.5;
-  localDw->frontRelease = (MwbDouble)((25));
-  localDw->frontSectorEmergency = (MwbDouble)((6));
-  localDw->sideEmergency = 4.5;
-  localDw->sideCorrection = (MwbDouble)((8));
+  localDw->frontRelease = (MwbDouble)((30));
+  localDw->frontSectorEmergency = 4.5;
+  localDw->frontDiagonalWarn = (MwbDouble)((22));
+  localDw->frontDiagonalRelease = (MwbDouble)((26));
+  localDw->sideEmergency = (MwbDouble)((6));
+  localDw->sideCorrection = (MwbDouble)((10));
   localDw->scoreCap = (MwbDouble)((40));
+  localDw->unknownForward = (MwbDouble)((10));
+  localDw->unknownSide = (MwbDouble)((8));
+  localDw->pathFrontMinimum = (MwbDouble)((9));
+  localDw->pathSideMinimum = (MwbDouble)((8));
+  localDw->frontCornerRelease = (MwbDouble)((10));
+  localDw->trappedDistance = (MwbDouble)((10));
   localDw->directionHysteresis = 2.5;
+  localDw->directionSwitchMargin = (MwbDouble)((5));
+  localDw->directionConfirmTime = 0.1;
   localDw->normalDeadband = (MwbDouble)((3));
   localDw->clockwiseBias = 0.5;
   localDw->directionLock = (MwbDouble)((0));
+  localDw->desiredDirection = (MwbDouble)((0));
+  localDw->candidateDirection = (MwbDouble)((0));
+  localDw->candidateTimer = (MwbDouble)((0));
+  localDw->avoidRequest = (MwbDouble)((0));
+  localDw->leftPathAllowed = (MwbDouble)((1));
+  localDw->rightPathAllowed = (MwbDouble)((1));
   localDw->flEff = (MwbDouble)((40));
   localDw->frEff = (MwbDouble)((40));
   localDw->slEff = (MwbDouble)((40));
@@ -579,8 +595,35 @@ void for_code_jgb520_team27ChartInit(MwbDouble sr, MwbDouble fl, MwbDouble sl, M
   localDw->srCap = (MwbDouble)((40));
   localDw->leftScore = (MwbDouble)((40));
   localDw->rightScore = (MwbDouble)((40));
+  localDw->leftSideReach = (MwbDouble)((40));
+  localDw->rightSideReach = (MwbDouble)((40));
   localDw->steeringMagnitude = (MwbDouble)((0));
+  localDw->closestFront = (MwbDouble)((40));
   localDw->normalSteer = (MwbDouble)((0));
+  localDw->pocketDistance = (MwbDouble)((11));
+  localDw->turnEscapeSpeed = (MwbDouble)((45));
+  localDw->corridorCenterMinimum = (MwbDouble)((18));
+  localDw->corridorCornerMinimum = (MwbDouble)((12));
+  localDw->corridorPassAllowed = (MwbDouble)((0));
+  localDw->tightStopDistance = (MwbDouble)((18));
+  localDw->tightStopRequest = (MwbDouble)((0));
+  localDw->backupState = (MwbDouble)((0));
+  localDw->backupTimer = (MwbDouble)((0));
+  localDw->closeConfirmTimer = (MwbDouble)((0));
+  localDw->escapeFailureTimer = (MwbDouble)((0));
+  localDw->escapeFailureTime = 0.45;
+  localDw->backupEscapeDirection = (MwbDouble)((0));
+  localDw->backupArmed = (MwbDouble)((1));
+  localDw->controlStep = 0.05;
+  localDw->backupConfirmTime = 0.1;
+  localDw->backupMinTime = 0.8;
+  localDw->backupMaxTime = 1.2;
+  localDw->backupPreStopTime = 0.2;
+  localDw->backupStraightTime = 0.2;
+  localDw->backupSteerMagnitude = 0.38;
+  localDw->backupSettleTime = 0.15;
+  localDw->backupRelease = (MwbDouble)((12));
+  localDw->backupSpeedCmd = (MwbDouble)(((-55)));
   *speed = (MwbDouble)((0));
   *steer = (MwbDouble)((0));
   *gapS = (MwbDouble)((0));
@@ -599,7 +642,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->flEff = localDw->scoreCap;
+      localDw->flEff = localDw->unknownForward;
     }
     if (fr >= 2)
     {
@@ -607,7 +650,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->frEff = localDw->scoreCap;
+      localDw->frEff = localDw->unknownForward;
     }
     if (sl >= 2)
     {
@@ -615,7 +658,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->slEff = localDw->scoreCap;
+      localDw->slEff = localDw->unknownSide;
     }
     if (sr >= 2)
     {
@@ -623,7 +666,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->srEff = localDw->scoreCap;
+      localDw->srEff = localDw->unknownSide;
     }
     if (localDw->flEff < localDw->scoreCap)
     {
@@ -657,20 +700,232 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       localDw->srCap = localDw->scoreCap;
     }
-    localDw->leftScore = 0.82 * localDw->flCap + 0.18 * localDw->slCap;
-    localDw->rightScore = 0.82 * localDw->frCap + 0.18 * localDw->srCap + localDw->clockwiseBias;
-    if (fc > localDw->frontRelease)
+    localDw->leftSideReach = 1.6 * localDw->slCap;
+    if (localDw->leftSideReach > localDw->scoreCap)
     {
-      localDw->directionLock = (MwbDouble)((0));
+      localDw->leftSideReach = localDw->scoreCap;
     }
-    else if (fc > 0 && fc <= localDw->frontWarn)
+    else
+    {
+      /* nothing to do. */
+    }
+    localDw->rightSideReach = 1.6 * localDw->srCap;
+    if (localDw->rightSideReach > localDw->scoreCap)
+    {
+      localDw->rightSideReach = localDw->scoreCap;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->flCap < localDw->leftSideReach)
+    {
+      localDw->leftScore = localDw->flCap;
+    }
+    else
+    {
+      localDw->leftScore = localDw->leftSideReach;
+    }
+    if (localDw->frCap < localDw->rightSideReach)
+    {
+      localDw->rightScore = localDw->frCap + localDw->clockwiseBias;
+    }
+    else
+    {
+      localDw->rightScore = localDw->rightSideReach + localDw->clockwiseBias;
+    }
+    if (localDw->flEff >= localDw->pathFrontMinimum && localDw->slEff >= localDw->pathSideMinimum)
+    {
+      localDw->leftPathAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->leftPathAllowed = (MwbDouble)((0));
+    }
+    if (localDw->frEff >= localDw->pathFrontMinimum && localDw->srEff >= localDw->pathSideMinimum)
+    {
+      localDw->rightPathAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->rightPathAllowed = (MwbDouble)((0));
+    }
+    if (fc >= localDw->corridorCenterMinimum && localDw->flEff >= localDw->corridorCornerMinimum && localDw->frEff >= localDw->corridorCornerMinimum)
+    {
+      localDw->corridorPassAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->corridorPassAllowed = (MwbDouble)((0));
+    }
+    localDw->closestFront = fc;
+    if (localDw->flEff < localDw->closestFront)
+    {
+      localDw->closestFront = localDw->flEff;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->frEff < localDw->closestFront)
+    {
+      localDw->closestFront = localDw->frEff;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (fc > 0 && fc <= localDw->frontWarn || localDw->flEff <= localDw->frontDiagonalWarn || localDw->frEff <= localDw->frontDiagonalWarn)
+    {
+      localDw->avoidRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->avoidRequest = (MwbDouble)((0));
+    }
+    if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5 && localDw->closestFront <= localDw->tightStopDistance && fcRaw >= 2 && fcRaw <= 250)
+    {
+      localDw->tightStopRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->tightStopRequest = (MwbDouble)((0));
+    }
+    if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease && localDw->frEff > localDw->frontDiagonalRelease)
+    {
+      localDw->backupArmed = (MwbDouble)((1));
+      localDw->closeConfirmTimer = (MwbDouble)((0));
+      localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->backupState < 0.5 && localDw->backupArmed > 0.5 && (fcRaw >= 2 && fcRaw <= localDw->frontEmergency || localDw->flEff 
+    <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency || localDw->frEff <= localDw->frontSectorEmergency 
+    && localDw->flEff > localDw->frontSectorEmergency))
+    {
+      localDw->escapeFailureTimer = localDw->escapeFailureTimer + localDw->controlStep;
+    }
+    else
+    {
+      localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    if (localDw->backupState > 2.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (localDw->backupTimer >= localDw->backupSettleTime)
+      {
+        localDw->backupState = (MwbDouble)((0));
+        localDw->backupTimer = (MwbDouble)((0));
+        localDw->directionLock = (MwbDouble)((0));
+        localDw->desiredDirection = (MwbDouble)((0));
+        localDw->candidateDirection = (MwbDouble)((0));
+        localDw->candidateTimer = (MwbDouble)((0));
+        localDw->backupEscapeDirection = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else if (localDw->backupState > 1.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (!((fcRaw >= 2 && fcRaw <= 250)) || localDw->backupTimer >= localDw->backupMaxTime || localDw->backupTimer >= localDw->backupMinTime 
+      && fc >= localDw->backupRelease && localDw->flEff >= localDw->frontCornerRelease && localDw->frEff >= localDw->frontCornerRelease)
+      {
+        localDw->backupState = (MwbDouble)((3));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (!((fcRaw >= 2 && fcRaw <= 250)))
+      {
+        localDw->backupState = (MwbDouble)((3));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else if (localDw->backupTimer >= localDw->backupPreStopTime)
+      {
+        localDw->backupState = (MwbDouble)((2));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else
+    {
+      if (localDw->backupArmed > 0.5 && (localDw->tightStopRequest > 0.5 || localDw->escapeFailureTimer >= localDw->escapeFailureTime 
+      || localDw->flEff <= localDw->pocketDistance && localDw->frEff <= localDw->pocketDistance || fc > 0 && fc <= localDw->frontStrong 
+      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5))
+      {
+        localDw->closeConfirmTimer = localDw->closeConfirmTimer + localDw->controlStep;
+      }
+      else
+      {
+        localDw->closeConfirmTimer = (MwbDouble)((0));
+      }
+      if (localDw->closeConfirmTimer >= localDw->backupConfirmTime)
+      {
+        if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else if (localDw->rightPathAllowed > 0.5 && localDw->leftPathAllowed < 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->leftScore > localDw->rightScore)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        localDw->backupState = (MwbDouble)((1));
+        localDw->backupTimer = (MwbDouble)((0));
+        localDw->closeConfirmTimer = (MwbDouble)((0));
+        localDw->escapeFailureTimer = (MwbDouble)((0));
+        localDw->backupArmed = (MwbDouble)((0));
+        localDw->desiredDirection = (MwbDouble)((0));
+        localDw->candidateDirection = (MwbDouble)((0));
+        localDw->candidateTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    if (localDw->backupState < 0.5)
     {
       if (localDw->directionLock > 0.5)
       {
-        if ((localDw->flEff < localDw->frontSectorEmergency || localDw->slEff < localDw->sideEmergency) && localDw->rightScore > localDw->leftScore 
-        + localDw->directionHysteresis)
+        if (fc > localDw->frontRelease && localDw->frEff > localDw->frontDiagonalRelease)
+        {
+          localDw->directionLock = (MwbDouble)((0));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->rightPathAllowed > 0.5 && (localDw->leftPathAllowed < 0.5 || localDw->rightScore > localDw->leftScore + 
+        localDw->directionSwitchMargin))
         {
           localDw->directionLock = (MwbDouble)(((-1)));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->directionLock = (MwbDouble)((0));
         }
         else
         {
@@ -679,107 +934,252 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       else if (localDw->directionLock < (-0.5))
       {
-        if ((localDw->frEff < localDw->frontSectorEmergency || localDw->srEff < localDw->sideEmergency) && localDw->leftScore > localDw->rightScore 
-        + localDw->directionHysteresis)
+        if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease)
+        {
+          localDw->directionLock = (MwbDouble)((0));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed > 0.5 && (localDw->rightPathAllowed < 0.5 || localDw->leftScore > localDw->rightScore + 
+        localDw->directionSwitchMargin))
         {
           localDw->directionLock = (MwbDouble)((1));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->directionLock = (MwbDouble)((0));
         }
         else
         {
           /* nothing to do. */
         }
       }
-      else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis && localDw->flEff > localDw->frontSectorEmergency 
-      && localDw->slEff > localDw->sideEmergency)
-      {
-        localDw->directionLock = (MwbDouble)((1));
-      }
-      else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis && localDw->frEff > localDw->frontSectorEmergency 
-      && localDw->srEff > localDw->sideEmergency)
-      {
-        localDw->directionLock = (MwbDouble)(((-1)));
-      }
-      else if (localDw->flEff > localDw->frontSectorEmergency && localDw->slEff > localDw->sideEmergency && !((localDw->frEff > localDw->frontSectorEmergency 
-      && localDw->srEff > localDw->sideEmergency)))
-      {
-        localDw->directionLock = (MwbDouble)((1));
-      }
       else
       {
-        localDw->directionLock = (MwbDouble)(((-1)));
+        localDw->desiredDirection = (MwbDouble)((0));
+        if (localDw->avoidRequest > 0.5)
+        {
+          if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed < 0.5)
+          {
+            localDw->desiredDirection = (MwbDouble)((1));
+          }
+          else if (localDw->rightPathAllowed > 0.5 && localDw->leftPathAllowed < 0.5)
+          {
+            localDw->desiredDirection = (MwbDouble)(((-1)));
+          }
+          else if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed > 0.5)
+          {
+            if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis)
+            {
+              localDw->desiredDirection = (MwbDouble)((1));
+            }
+            else
+            {
+              localDw->desiredDirection = (MwbDouble)(((-1)));
+            }
+          }
+          else
+          {
+            /* nothing to do. */
+          }
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+        if (localDw->desiredDirection > 0.5 || localDw->desiredDirection < (-0.5))
+        {
+          if (localDw->candidateDirection > 0.5 && localDw->desiredDirection > 0.5 || localDw->candidateDirection < (-0.5) && localDw->desiredDirection 
+          < (-0.5))
+          {
+            localDw->candidateTimer = localDw->candidateTimer + localDw->controlStep;
+          }
+          else
+          {
+            localDw->candidateDirection = localDw->desiredDirection;
+            localDw->candidateTimer = localDw->controlStep;
+          }
+          if (localDw->candidateTimer >= localDw->directionConfirmTime)
+          {
+            localDw->directionLock = localDw->candidateDirection;
+            localDw->candidateDirection = (MwbDouble)((0));
+            localDw->candidateTimer = (MwbDouble)((0));
+          }
+          else
+          {
+            /* nothing to do. */
+          }
+        }
+        else
+        {
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
       }
     }
     else
     {
       /* nothing to do. */
     }
-    if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency || fc < 7 && localDw->flEff < localDw->frontSectorEmergency 
-    && localDw->frEff < localDw->frontSectorEmergency)
+    if (localDw->backupState > 2.5)
     {
       *speed = (MwbDouble)((0));
     }
-    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    else if (localDw->backupState > 1.5)
     {
-      if (fc <= 8)
+      *speed = localDw->backupSpeedCmd;
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency)
+    {
+      if (localDw->directionLock > 0.5 && localDw->leftPathAllowed > 0.5 || localDw->directionLock < (-0.5) && localDw->rightPathAllowed 
+      > 0.5)
       {
-        *speed = (MwbDouble)((55));
-      }
-      else if (fc <= localDw->frontStrong)
-      {
-        *speed = (MwbDouble)((65));
+        *speed = localDw->turnEscapeSpeed;
       }
       else
       {
-        *speed = (MwbDouble)((85));
+        *speed = (MwbDouble)((0));
       }
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency && localDw->rightPathAllowed 
+    > 0.5)
+    {
+      *speed = localDw->turnEscapeSpeed;
+    }
+    else if (localDw->frEff <= localDw->frontSectorEmergency && localDw->flEff > localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    > 0.5)
+    {
+      *speed = localDw->turnEscapeSpeed;
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency || localDw->frEff <= localDw->frontSectorEmergency)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->corridorPassAllowed > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+    {
+      *speed = (MwbDouble)((90));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (localDw->closestFront <= 8)
+      {
+        *speed = localDw->turnEscapeSpeed;
+      }
+      else if (localDw->closestFront <= 11)
+      {
+        *speed = (MwbDouble)((70));
+      }
+      else if (localDw->closestFront <= 16)
+      {
+        *speed = (MwbDouble)((100));
+      }
+      else
+      {
+        *speed = (MwbDouble)((130));
+      }
+    }
+    else if (localDw->avoidRequest > 0.5)
+    {
+      *speed = (MwbDouble)((110));
     }
     else if (localDw->flEff < 8 || localDw->frEff < 8 || localDw->slEff < localDw->sideEmergency || localDw->srEff < localDw->sideEmergency)
     {
-      *speed = (MwbDouble)((70));
+      *speed = (MwbDouble)((90));
     }
-    else if (fc <= 30 || localDw->flEff < 15 || localDw->frEff < 15)
+    else if (fc <= 32 || localDw->flEff < 26 || localDw->frEff < 26)
     {
-      *speed = (MwbDouble)((110));
+      *speed = (MwbDouble)((140));
     }
     else
     {
       *speed = (MwbDouble)((160));
     }
-    if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    if (localDw->backupState > 2.5)
     {
-      *steer = (-0.55);
+      *steer = (MwbDouble)((0));
+    }
+    else if (localDw->backupState > 1.5)
+    {
+      if (localDw->backupTimer < localDw->backupStraightTime)
+      {
+        *steer = (MwbDouble)((0));
+      }
+      else if (localDw->backupEscapeDirection > 0.5)
+      {
+        *steer = -(localDw->backupSteerMagnitude);
+      }
+      else if (localDw->backupEscapeDirection < (-0.5))
+      {
+        *steer = localDw->backupSteerMagnitude;
+      }
+      else
+      {
+        *steer = (MwbDouble)((0));
+      }
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      *steer = (MwbDouble)((0));
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency && localDw->rightPathAllowed 
+    > 0.5)
+    {
+      *steer = (-0.58);
+      localDw->directionLock = (MwbDouble)(((-1)));
+    }
+    else if (localDw->frEff <= localDw->frontSectorEmergency && localDw->flEff > localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    > 0.5)
+    {
+      *steer = 0.58;
+      localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    {
+      *steer = (-0.58);
       localDw->directionLock = (MwbDouble)(((-1)));
     }
     else if (localDw->srEff < localDw->sideEmergency && !((localDw->slEff < localDw->sideEmergency)))
     {
-      *steer = 0.55;
+      *steer = 0.58;
       localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5)
+    {
+      *steer = (MwbDouble)((0));
     }
     else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
     {
-      if (fc <= 8)
+      if (localDw->closestFront <= 12)
       {
-        localDw->steeringMagnitude = 0.55;
+        localDw->steeringMagnitude = 0.58;
       }
-      else if (fc <= localDw->frontStrong)
+      else if (localDw->closestFront <= 18)
       {
-        localDw->steeringMagnitude = 0.48;
-      }
-      else if (fc <= 16)
-      {
-        localDw->steeringMagnitude = 0.4;
+        localDw->steeringMagnitude = 0.56;
       }
       else
       {
-        localDw->steeringMagnitude = 0.3;
+        localDw->steeringMagnitude = 0.48;
       }
       *steer = localDw->directionLock * localDw->steeringMagnitude;
     }
     else
     {
-      if (localDw->flCap - localDw->frCap > localDw->normalDeadband || localDw->frCap - localDw->flCap > localDw->normalDeadband)
+      if (localDw->leftScore - localDw->rightScore > localDw->normalDeadband || localDw->rightScore - localDw->leftScore > localDw->normalDeadband)
       {
-        localDw->normalSteer = 0.012 * (localDw->flCap - localDw->frCap);
+        localDw->normalSteer = 0.02 * (localDw->leftScore - localDw->rightScore);
       }
       else
       {
@@ -787,7 +1187,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       if (localDw->slEff < localDw->sideCorrection)
       {
-        localDw->normalSteer = localDw->normalSteer - 0.045 * (localDw->sideCorrection - localDw->slEff);
+        localDw->normalSteer = localDw->normalSteer - 0.055 * (localDw->sideCorrection - localDw->slEff);
       }
       else
       {
@@ -795,19 +1195,19 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       if (localDw->srEff < localDw->sideCorrection)
       {
-        localDw->normalSteer = localDw->normalSteer + 0.045 * (localDw->sideCorrection - localDw->srEff);
+        localDw->normalSteer = localDw->normalSteer + 0.055 * (localDw->sideCorrection - localDw->srEff);
       }
       else
       {
         /* nothing to do. */
       }
-      if (localDw->normalSteer > 0.24)
+      if (localDw->normalSteer > 0.4)
       {
-        *steer = 0.24;
+        *steer = 0.4;
       }
-      else if (localDw->normalSteer < (-0.24))
+      else if (localDw->normalSteer < (-0.4))
       {
-        *steer = (-0.24);
+        *steer = (-0.4);
       }
       else
       {
@@ -825,7 +1225,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->flEff = localDw->scoreCap;
+      localDw->flEff = localDw->unknownForward;
     }
     if (fr >= 2)
     {
@@ -833,7 +1233,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->frEff = localDw->scoreCap;
+      localDw->frEff = localDw->unknownForward;
     }
     if (sl >= 2)
     {
@@ -841,7 +1241,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->slEff = localDw->scoreCap;
+      localDw->slEff = localDw->unknownSide;
     }
     if (sr >= 2)
     {
@@ -849,7 +1249,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     }
     else
     {
-      localDw->srEff = localDw->scoreCap;
+      localDw->srEff = localDw->unknownSide;
     }
     if (localDw->flEff < localDw->scoreCap)
     {
@@ -883,20 +1283,232 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
     {
       localDw->srCap = localDw->scoreCap;
     }
-    localDw->leftScore = 0.82 * localDw->flCap + 0.18 * localDw->slCap;
-    localDw->rightScore = 0.82 * localDw->frCap + 0.18 * localDw->srCap + localDw->clockwiseBias;
-    if (fc > localDw->frontRelease)
+    localDw->leftSideReach = 1.6 * localDw->slCap;
+    if (localDw->leftSideReach > localDw->scoreCap)
     {
-      localDw->directionLock = (MwbDouble)((0));
+      localDw->leftSideReach = localDw->scoreCap;
     }
-    else if (fc > 0 && fc <= localDw->frontWarn)
+    else
+    {
+      /* nothing to do. */
+    }
+    localDw->rightSideReach = 1.6 * localDw->srCap;
+    if (localDw->rightSideReach > localDw->scoreCap)
+    {
+      localDw->rightSideReach = localDw->scoreCap;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->flCap < localDw->leftSideReach)
+    {
+      localDw->leftScore = localDw->flCap;
+    }
+    else
+    {
+      localDw->leftScore = localDw->leftSideReach;
+    }
+    if (localDw->frCap < localDw->rightSideReach)
+    {
+      localDw->rightScore = localDw->frCap + localDw->clockwiseBias;
+    }
+    else
+    {
+      localDw->rightScore = localDw->rightSideReach + localDw->clockwiseBias;
+    }
+    if (localDw->flEff >= localDw->pathFrontMinimum && localDw->slEff >= localDw->pathSideMinimum)
+    {
+      localDw->leftPathAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->leftPathAllowed = (MwbDouble)((0));
+    }
+    if (localDw->frEff >= localDw->pathFrontMinimum && localDw->srEff >= localDw->pathSideMinimum)
+    {
+      localDw->rightPathAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->rightPathAllowed = (MwbDouble)((0));
+    }
+    if (fc >= localDw->corridorCenterMinimum && localDw->flEff >= localDw->corridorCornerMinimum && localDw->frEff >= localDw->corridorCornerMinimum)
+    {
+      localDw->corridorPassAllowed = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->corridorPassAllowed = (MwbDouble)((0));
+    }
+    localDw->closestFront = fc;
+    if (localDw->flEff < localDw->closestFront)
+    {
+      localDw->closestFront = localDw->flEff;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->frEff < localDw->closestFront)
+    {
+      localDw->closestFront = localDw->frEff;
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (fc > 0 && fc <= localDw->frontWarn || localDw->flEff <= localDw->frontDiagonalWarn || localDw->frEff <= localDw->frontDiagonalWarn)
+    {
+      localDw->avoidRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->avoidRequest = (MwbDouble)((0));
+    }
+    if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5 && localDw->closestFront <= localDw->tightStopDistance && fcRaw >= 2 && fcRaw <= 250)
+    {
+      localDw->tightStopRequest = (MwbDouble)((1));
+    }
+    else
+    {
+      localDw->tightStopRequest = (MwbDouble)((0));
+    }
+    if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease && localDw->frEff > localDw->frontDiagonalRelease)
+    {
+      localDw->backupArmed = (MwbDouble)((1));
+      localDw->closeConfirmTimer = (MwbDouble)((0));
+      localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (localDw->backupState < 0.5 && localDw->backupArmed > 0.5 && (fcRaw >= 2 && fcRaw <= localDw->frontEmergency || localDw->flEff 
+    <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency || localDw->frEff <= localDw->frontSectorEmergency 
+    && localDw->flEff > localDw->frontSectorEmergency))
+    {
+      localDw->escapeFailureTimer = localDw->escapeFailureTimer + localDw->controlStep;
+    }
+    else
+    {
+      localDw->escapeFailureTimer = (MwbDouble)((0));
+    }
+    if (localDw->backupState > 2.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (localDw->backupTimer >= localDw->backupSettleTime)
+      {
+        localDw->backupState = (MwbDouble)((0));
+        localDw->backupTimer = (MwbDouble)((0));
+        localDw->directionLock = (MwbDouble)((0));
+        localDw->desiredDirection = (MwbDouble)((0));
+        localDw->candidateDirection = (MwbDouble)((0));
+        localDw->candidateTimer = (MwbDouble)((0));
+        localDw->backupEscapeDirection = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else if (localDw->backupState > 1.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (!((fcRaw >= 2 && fcRaw <= 250)) || localDw->backupTimer >= localDw->backupMaxTime || localDw->backupTimer >= localDw->backupMinTime 
+      && fc >= localDw->backupRelease && localDw->flEff >= localDw->frontCornerRelease && localDw->frEff >= localDw->frontCornerRelease)
+      {
+        localDw->backupState = (MwbDouble)((3));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      localDw->backupTimer = localDw->backupTimer + localDw->controlStep;
+      if (!((fcRaw >= 2 && fcRaw <= 250)))
+      {
+        localDw->backupState = (MwbDouble)((3));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else if (localDw->backupTimer >= localDw->backupPreStopTime)
+      {
+        localDw->backupState = (MwbDouble)((2));
+        localDw->backupTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    else
+    {
+      if (localDw->backupArmed > 0.5 && (localDw->tightStopRequest > 0.5 || localDw->escapeFailureTimer >= localDw->escapeFailureTime 
+      || localDw->flEff <= localDw->pocketDistance && localDw->frEff <= localDw->pocketDistance || fc > 0 && fc <= localDw->frontStrong 
+      && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5))
+      {
+        localDw->closeConfirmTimer = localDw->closeConfirmTimer + localDw->controlStep;
+      }
+      else
+      {
+        localDw->closeConfirmTimer = (MwbDouble)((0));
+      }
+      if (localDw->closeConfirmTimer >= localDw->backupConfirmTime)
+      {
+        if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else if (localDw->rightPathAllowed > 0.5 && localDw->leftPathAllowed < 0.5)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        else if (localDw->leftScore > localDw->rightScore)
+        {
+          localDw->backupEscapeDirection = (MwbDouble)((1));
+        }
+        else
+        {
+          localDw->backupEscapeDirection = (MwbDouble)(((-1)));
+        }
+        localDw->backupState = (MwbDouble)((1));
+        localDw->backupTimer = (MwbDouble)((0));
+        localDw->closeConfirmTimer = (MwbDouble)((0));
+        localDw->escapeFailureTimer = (MwbDouble)((0));
+        localDw->backupArmed = (MwbDouble)((0));
+        localDw->desiredDirection = (MwbDouble)((0));
+        localDw->candidateDirection = (MwbDouble)((0));
+        localDw->candidateTimer = (MwbDouble)((0));
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+    }
+    if (localDw->backupState < 0.5)
     {
       if (localDw->directionLock > 0.5)
       {
-        if ((localDw->flEff < localDw->frontSectorEmergency || localDw->slEff < localDw->sideEmergency) && localDw->rightScore > localDw->leftScore 
-        + localDw->directionHysteresis)
+        if (fc > localDw->frontRelease && localDw->frEff > localDw->frontDiagonalRelease)
+        {
+          localDw->directionLock = (MwbDouble)((0));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->rightPathAllowed > 0.5 && (localDw->leftPathAllowed < 0.5 || localDw->rightScore > localDw->leftScore + 
+        localDw->directionSwitchMargin))
         {
           localDw->directionLock = (MwbDouble)(((-1)));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->directionLock = (MwbDouble)((0));
         }
         else
         {
@@ -905,107 +1517,252 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       else if (localDw->directionLock < (-0.5))
       {
-        if ((localDw->frEff < localDw->frontSectorEmergency || localDw->srEff < localDw->sideEmergency) && localDw->leftScore > localDw->rightScore 
-        + localDw->directionHysteresis)
+        if (fc > localDw->frontRelease && localDw->flEff > localDw->frontDiagonalRelease)
+        {
+          localDw->directionLock = (MwbDouble)((0));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed > 0.5 && (localDw->rightPathAllowed < 0.5 || localDw->leftScore > localDw->rightScore + 
+        localDw->directionSwitchMargin))
         {
           localDw->directionLock = (MwbDouble)((1));
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
+        else if (localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+        {
+          localDw->directionLock = (MwbDouble)((0));
         }
         else
         {
           /* nothing to do. */
         }
       }
-      else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis && localDw->flEff > localDw->frontSectorEmergency 
-      && localDw->slEff > localDw->sideEmergency)
-      {
-        localDw->directionLock = (MwbDouble)((1));
-      }
-      else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis && localDw->frEff > localDw->frontSectorEmergency 
-      && localDw->srEff > localDw->sideEmergency)
-      {
-        localDw->directionLock = (MwbDouble)(((-1)));
-      }
-      else if (localDw->flEff > localDw->frontSectorEmergency && localDw->slEff > localDw->sideEmergency && !((localDw->frEff > localDw->frontSectorEmergency 
-      && localDw->srEff > localDw->sideEmergency)))
-      {
-        localDw->directionLock = (MwbDouble)((1));
-      }
       else
       {
-        localDw->directionLock = (MwbDouble)(((-1)));
+        localDw->desiredDirection = (MwbDouble)((0));
+        if (localDw->avoidRequest > 0.5)
+        {
+          if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed < 0.5)
+          {
+            localDw->desiredDirection = (MwbDouble)((1));
+          }
+          else if (localDw->rightPathAllowed > 0.5 && localDw->leftPathAllowed < 0.5)
+          {
+            localDw->desiredDirection = (MwbDouble)(((-1)));
+          }
+          else if (localDw->leftPathAllowed > 0.5 && localDw->rightPathAllowed > 0.5)
+          {
+            if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis)
+            {
+              localDw->desiredDirection = (MwbDouble)((1));
+            }
+            else
+            {
+              localDw->desiredDirection = (MwbDouble)(((-1)));
+            }
+          }
+          else
+          {
+            /* nothing to do. */
+          }
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+        if (localDw->desiredDirection > 0.5 || localDw->desiredDirection < (-0.5))
+        {
+          if (localDw->candidateDirection > 0.5 && localDw->desiredDirection > 0.5 || localDw->candidateDirection < (-0.5) && localDw->desiredDirection 
+          < (-0.5))
+          {
+            localDw->candidateTimer = localDw->candidateTimer + localDw->controlStep;
+          }
+          else
+          {
+            localDw->candidateDirection = localDw->desiredDirection;
+            localDw->candidateTimer = localDw->controlStep;
+          }
+          if (localDw->candidateTimer >= localDw->directionConfirmTime)
+          {
+            localDw->directionLock = localDw->candidateDirection;
+            localDw->candidateDirection = (MwbDouble)((0));
+            localDw->candidateTimer = (MwbDouble)((0));
+          }
+          else
+          {
+            /* nothing to do. */
+          }
+        }
+        else
+        {
+          localDw->candidateDirection = (MwbDouble)((0));
+          localDw->candidateTimer = (MwbDouble)((0));
+        }
       }
     }
     else
     {
       /* nothing to do. */
     }
-    if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency || fc < 7 && localDw->flEff < localDw->frontSectorEmergency 
-    && localDw->frEff < localDw->frontSectorEmergency)
+    if (localDw->backupState > 2.5)
     {
       *speed = (MwbDouble)((0));
     }
-    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    else if (localDw->backupState > 1.5)
     {
-      if (fc <= 8)
+      *speed = localDw->backupSpeedCmd;
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency)
+    {
+      if (localDw->directionLock > 0.5 && localDw->leftPathAllowed > 0.5 || localDw->directionLock < (-0.5) && localDw->rightPathAllowed 
+      > 0.5)
       {
-        *speed = (MwbDouble)((55));
-      }
-      else if (fc <= localDw->frontStrong)
-      {
-        *speed = (MwbDouble)((65));
+        *speed = localDw->turnEscapeSpeed;
       }
       else
       {
-        *speed = (MwbDouble)((85));
+        *speed = (MwbDouble)((0));
       }
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency && localDw->rightPathAllowed 
+    > 0.5)
+    {
+      *speed = localDw->turnEscapeSpeed;
+    }
+    else if (localDw->frEff <= localDw->frontSectorEmergency && localDw->flEff > localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    > 0.5)
+    {
+      *speed = localDw->turnEscapeSpeed;
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency || localDw->frEff <= localDw->frontSectorEmergency)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->corridorPassAllowed > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5)
+    {
+      *speed = (MwbDouble)((90));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (localDw->closestFront <= 8)
+      {
+        *speed = localDw->turnEscapeSpeed;
+      }
+      else if (localDw->closestFront <= 11)
+      {
+        *speed = (MwbDouble)((70));
+      }
+      else if (localDw->closestFront <= 16)
+      {
+        *speed = (MwbDouble)((100));
+      }
+      else
+      {
+        *speed = (MwbDouble)((130));
+      }
+    }
+    else if (localDw->avoidRequest > 0.5)
+    {
+      *speed = (MwbDouble)((110));
     }
     else if (localDw->flEff < 8 || localDw->frEff < 8 || localDw->slEff < localDw->sideEmergency || localDw->srEff < localDw->sideEmergency)
     {
-      *speed = (MwbDouble)((70));
+      *speed = (MwbDouble)((90));
     }
-    else if (fc <= 30 || localDw->flEff < 15 || localDw->frEff < 15)
+    else if (fc <= 32 || localDw->flEff < 26 || localDw->frEff < 26)
     {
-      *speed = (MwbDouble)((110));
+      *speed = (MwbDouble)((140));
     }
     else
     {
       *speed = (MwbDouble)((160));
     }
-    if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    if (localDw->backupState > 2.5)
     {
-      *steer = (-0.55);
+      *steer = (MwbDouble)((0));
+    }
+    else if (localDw->backupState > 1.5)
+    {
+      if (localDw->backupTimer < localDw->backupStraightTime)
+      {
+        *steer = (MwbDouble)((0));
+      }
+      else if (localDw->backupEscapeDirection > 0.5)
+      {
+        *steer = -(localDw->backupSteerMagnitude);
+      }
+      else if (localDw->backupEscapeDirection < (-0.5))
+      {
+        *steer = localDw->backupSteerMagnitude;
+      }
+      else
+      {
+        *steer = (MwbDouble)((0));
+      }
+    }
+    else if (localDw->backupState > 0.5)
+    {
+      *steer = (MwbDouble)((0));
+    }
+    else if (localDw->flEff <= localDw->frontSectorEmergency && localDw->frEff > localDw->frontSectorEmergency && localDw->rightPathAllowed 
+    > 0.5)
+    {
+      *steer = (-0.58);
+      localDw->directionLock = (MwbDouble)(((-1)));
+    }
+    else if (localDw->frEff <= localDw->frontSectorEmergency && localDw->flEff > localDw->frontSectorEmergency && localDw->leftPathAllowed 
+    > 0.5)
+    {
+      *steer = 0.58;
+      localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    {
+      *steer = (-0.58);
       localDw->directionLock = (MwbDouble)(((-1)));
     }
     else if (localDw->srEff < localDw->sideEmergency && !((localDw->slEff < localDw->sideEmergency)))
     {
-      *steer = 0.55;
+      *steer = 0.58;
       localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->avoidRequest > 0.5 && localDw->leftPathAllowed < 0.5 && localDw->rightPathAllowed < 0.5 && localDw->corridorPassAllowed 
+    < 0.5)
+    {
+      *steer = (MwbDouble)((0));
     }
     else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
     {
-      if (fc <= 8)
+      if (localDw->closestFront <= 12)
       {
-        localDw->steeringMagnitude = 0.55;
+        localDw->steeringMagnitude = 0.58;
       }
-      else if (fc <= localDw->frontStrong)
+      else if (localDw->closestFront <= 18)
       {
-        localDw->steeringMagnitude = 0.48;
-      }
-      else if (fc <= 16)
-      {
-        localDw->steeringMagnitude = 0.4;
+        localDw->steeringMagnitude = 0.56;
       }
       else
       {
-        localDw->steeringMagnitude = 0.3;
+        localDw->steeringMagnitude = 0.48;
       }
       *steer = localDw->directionLock * localDw->steeringMagnitude;
     }
     else
     {
-      if (localDw->flCap - localDw->frCap > localDw->normalDeadband || localDw->frCap - localDw->flCap > localDw->normalDeadband)
+      if (localDw->leftScore - localDw->rightScore > localDw->normalDeadband || localDw->rightScore - localDw->leftScore > localDw->normalDeadband)
       {
-        localDw->normalSteer = 0.012 * (localDw->flCap - localDw->frCap);
+        localDw->normalSteer = 0.02 * (localDw->leftScore - localDw->rightScore);
       }
       else
       {
@@ -1013,7 +1770,7 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       if (localDw->slEff < localDw->sideCorrection)
       {
-        localDw->normalSteer = localDw->normalSteer - 0.045 * (localDw->sideCorrection - localDw->slEff);
+        localDw->normalSteer = localDw->normalSteer - 0.055 * (localDw->sideCorrection - localDw->slEff);
       }
       else
       {
@@ -1021,19 +1778,19 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
       }
       if (localDw->srEff < localDw->sideCorrection)
       {
-        localDw->normalSteer = localDw->normalSteer + 0.045 * (localDw->sideCorrection - localDw->srEff);
+        localDw->normalSteer = localDw->normalSteer + 0.055 * (localDw->sideCorrection - localDw->srEff);
       }
       else
       {
         /* nothing to do. */
       }
-      if (localDw->normalSteer > 0.24)
+      if (localDw->normalSteer > 0.4)
       {
-        *steer = 0.24;
+        *steer = 0.4;
       }
-      else if (localDw->normalSteer < (-0.24))
+      else if (localDw->normalSteer < (-0.4))
       {
-        *steer = (-0.24);
+        *steer = (-0.4);
       }
       else
       {
@@ -1047,8 +1804,8 @@ localB, struct for_code_jgb520_team27ChartDw* localDw)
 void ajgb520_team27SteeringratelimiterInit(MwbDouble target, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, 
   struct b520_team27SteeringratelimiterB* localB, struct gb520_team27SteeringratelimiterDw* localDw)
 {
-  localDw->k = 0.12;
-  localDw->k_b = (-0.12);
+  localDw->k = 0.16;
+  localDw->k_b = (-0.16);
   localDw->initCond = (MwbDouble)((0));
   localDw->yb = localDw->initCond;
 }
@@ -1088,8 +1845,8 @@ void Obsavoidcontroller_team27_mwo28(MwbDouble front_dist, MwbDouble rear_dist, 
   &localDw->temp5, gap, fu_sensor_cmd, for_code_jgb520_team27GbMd, &localB->chart, &localDw->chart);
   ajgb520_team27SteeringratelimiterInit(localDw->temp5, &localDw->u_l, for_code_jgb520_team27GbMd, &localB->steeringRateLimiter, &localDw->steeringRateLimiter);
   
-  localDw->k = 0.55;
-  localDw->k_j = (-0.55);
+  localDw->k = 0.58;
+  localDw->k_j = (-0.58);
 }
 
 void Obsavoidcontroller_team27_mwo27(MwbDouble front_dist, MwbDouble rear_dist, MwbDouble right_dist, MwbDouble left_dist, MwbDouble 
