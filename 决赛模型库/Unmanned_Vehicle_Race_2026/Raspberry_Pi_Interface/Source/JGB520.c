@@ -19,7 +19,7 @@ extern int fd;
 	// if(wiringPiSetup() == -1)
 	 // {
 	 	// return 1;
-	 // } 
+	 // }
     // fd = serialOpen("/dev/ttyAMA0", 115200);
     // if (uart_fd < 0)
     // {
@@ -47,5 +47,5 @@ void motor_send_cmd(int id, double speed, int time_ms)
 // 停机专用函数
 void motor_stop(int id)
 {
-    motor_send_cmd(id, 0, 0); 
+    motor_send_cmd(id, 0, 0);
 }

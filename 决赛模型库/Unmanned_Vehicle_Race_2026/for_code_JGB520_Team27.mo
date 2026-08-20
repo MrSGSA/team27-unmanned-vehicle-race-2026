@@ -1,8 +1,15 @@
-model for_code_JGB520_Team27 "27号车代码生成部署（JGB520，四超声波）"
+model for_code_JGB520_Team27
+  "Team27正式参赛代码生成模型（纯MWORKS控制器，官方JGB520接口）"
   extends ModelWorkspace;
   import SysplorerEmbeddedCoder.Types.*;
   import BaseWorkspace.*;
-  annotation(__MWORKS(modelType = Control,PortArrangement,BlockSystem(blockKind = BlockKind.userModel,SampleTime(auto=true,group = "")=0.02,ExternalCResource(IncludeFile = {"JGB520.h"}, SourceFile = {"JGB520.c"}, Library, IncludeDirectory = {"classDirectory()/Raspberry_Pi_Interface/Source"}, LibraryDirectory = {"classDirectory()/Raspberry_Pi_Interface/Source"}, SavedInRelationPath = false),OutputInterval=0.05),CodeGeneration(Config = {"code_placement":{"mode":"Compact"},"code_replacement":{"standard_c_library":"C99"},"custom_code":{"code":{"function_declare":{"head":"","item_head":"","item_tail":"","tail":"void Terminate();"},"function_define":{"head":"","item_head":"","item_tail":"","tail":""},"global_variable_declare":{"head":"","item_head":"","item_tail":"","tail":""},"global_variable_define":{"head":"","item_head":"","item_tail":"","tail":"void Terminate()\n{\n  motor_send_cmd(2, 0, 0);\n  motor_send_cmd(1, 0, 0);\n  steer_cmd(0.0);\n  if (fd >= 0) serialClose(fd);\n}\n"},"include":{"head":"","item_head":"","item_tail":"","tail":""},"macro":{"head":"","item_head":"","item_tail":"","tail":""},"type":{"head":"#include <wiringPi.h>\n#include <wiringSerial.h>\n#include <softPwm.h>\n#include <signal.h>\n#include <math.h>\n#include <stdlib.h>\n#include <unistd.h>\n\nextern int fd;","item_head":"","item_tail":"","tail":""}},"code_protection":{"integer_division_by_zero":false,"overflow":false}},"data_type":{"real_as_float":false},"experiment":{"task_and_sample":{"muti_task_mode":false,"whether_to_use_prefix":false}},"hardware_platform":{"largest_atomic_size":{"floating_point":"32","integer":"32"}},"identifier":{"max_length":32,"style":{"function":"camelCase","local_variable":"camelCase","macro":"camelCase","mem_var":"camelCase","type":"camelCase"}},"interface":{"function_name":{"initialize":"Init","step":"Step"}},"is_expand":{"is_expand":false},"optimization":{"array_loop_threshold":5,"logical_operator":"logical"}}, Sim_seting = {"sim_seting":{"output":"C:/Users/Administrator/Desktop/无人系统竞赛决赛/决赛模型库/Unmanned_Vehicle_Race_2026/Team27_OneClick/generated"
+  annotation(__MWORKS(modelType = Control,PortArrangement(Right(front_center_dist_out, front_right_dist_out, side_right_dist_out, side_left_dist_out, front_left_dist_out, speed_cmd_out, steer_cmd_out, fixed_servo_cmd_out)),BlockSystem(blockKind = BlockKind.userModel,SampleTime(auto=true,group = "")=0.02,ExternalCResource(IncludeFile = {"JGB520.h"}, SourceFile = {"JGB520.c"}, Library, IncludeDirectory = {"classDirectory()/Raspberry_Pi_Interface/Source"}, LibraryDirectory = {"classDirectory()/Raspberry_Pi_Interface/Source"}, SavedInRelationPath = false),OutputInterval=0.05),CodeGeneration(Config = {"code_placement":{"mode":"Compact"},"code_replacement":{"standard_c_library":"C99"},"custom_code":{"code":{"function_declare":{"head":"","item_head":"","item_tail":"","tail":"void motor_send_cmd(int id, double speed, int time_ms);\nvoid Terminate();"},"function_define":{"head":"","item_head":"","item_tail":"","tail":""},"global_variable_declare":{"head":"","item_head":"","item_tail":"","tail":""},"global_variable_define":{"head":"","item_head":"","item_tail":"","tail":"void Terminate()\n{\n  fd = serialOpen(\"/dev/ttyAMA0\", 115200);\n  delayMicroseconds(20000);\n  motor_send_cmd(2, 0, 0); \nmotor_send_cmd(1, 0, 0); \n}"},"include":{"head":"","item_head":"","item_tail":"","tail":""},"macro":{"head":"","item_tail":"","item_head":"","tail":""},"type":{"head":"#include <wiringPi.h>\n#include <wiringSerial.h>\n#include <softPwm.h>\n#include <signal.h>\n#include <math.h>\n#include <stdlib.h>\n#include <unistd.h>\n\nextern int fd;","item_head":"","item_tail":"","tail":""}},"code_protection":{"integer_division_by_zero":false,"overflow":false}},"data_type":{"real_as_float":false},"experiment":{"task_and_sample":{"muti_task_mode":false,"whether_to_use_prefix":false}},"hardware_platform":{"largest_atomic_size":{"floating_point":"32","integer":"32"}},"identifier":{"max_length":32,"style":{"function":"camelCase","local_variable":"camelCase","macro":"camelCase","mem_var":"camelCase","type"
+:"camelCase"}},"interface":{"array_layout"
+:"row_major","function_name":{"initialize"
+:"Init"
+,"step":
+"Step","terminate":""},"generate_a2l_file":false,"generate_capi_for_param":false,"generate_capi_for_root_IO":true,"generate_capi_for_signal"
+:false,"generate_capi_for_state":false,"have_terminate":false,"include_internal_data":false},"is_expand":{"is_expand":false},"optimization":{"array_loop_threshold":5,"logical_operator":"logical","parameter_mode":"tunable"}}, Sim_seting = {"sim_seting":{"output":"D:/mworks比赛/team27-unmanned-vehicle-race-2026-main/决赛模型库/Unmanned_Vehicle_Race_2026/Team27_OneClick/generated"
 }}),version = "26.3.0"), Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}},
     grid = {2, 2}), graphics = {Rectangle(origin = {0, 0},
     fillColor = {255, 245, 225},
@@ -152,8 +159,8 @@ fillPattern=FillPattern.Solid,
 extent={{-65.6667,86.0418},{65.6667,-86.0418}}), Text(origin={2.66665,-47.9165},
 lineColor={0,85,255},
 extent={{-48.6667,12.0001},{48.6667,-12.0001}},
-textString="参赛选手小车控制模型
-（基于初赛模型迭代）",
+    textString="Team27五固定超声波连续控制器
+前左/前中/前右/正左/正右",
 fontSize=22,
 fontName="黑体",
 textStyle={TextStyle.None},
@@ -202,16 +209,18 @@ extent={{-33,-35.4412},{33,35.4412}})), __MWORKS(ComponentNamePlacement(BOTTOM),
   SysplorerEmbeddedCoder.Sources.Constant constant1(k = 0) 
     annotation(Placement(transformation(origin={77.58333,55.35914},
 extent={{-5.58333,-6},{5.58333,6}})), __MWORKS(BlockSystem(SampleTime(auto = true, group = "D1") = 0.02, Instance(y(Type(ref = "double"), Dimension = 1), k(Type(ref = "double"), Dimension = 1)))));
-  ObsAvoidController_Team27_FFLFRR subSystem 
+  Controller.ObsAvoidController_Team27_MWorks subSystem 
     annotation(Placement(transformation(origin = {2.66665, 48.2709},
     extent = {{-33, -35.4412}, {33, 35.4412}})), __MWORKS(PortLabels(labelType = "PortName")));
   SubSystem2 raspberry_GetMsg 
     annotation(Placement(transformation(origin={-150,48.2709},
 extent={{-33,-35.4412},{33,35.4412}})), __MWORKS(PortLabels(labelType = "PortName")));
-  SysplorerEmbeddedCoder.MathOperation.Gain gain7(k = -1) 
+  // Team27实车极性标定（2026-08-20）：电机2正指令为车体前进，
+  // 电机1负指令为车体前进。仅在MWORKS顶层修正符号，保留官方ID与接口源码。
+  SysplorerEmbeddedCoder.MathOperation.Gain gain7(k = 1) 
     annotation(Placement(transformation(origin={77.58333,34.0944},
 extent={{-5.58333,-6},{5.58333,6}})), __MWORKS(BlockSystem(Instance(y(OutputFlagForCAPI = true)))));
-  SysplorerEmbeddedCoder.MathOperation.Gain gain1(k = 1) 
+  SysplorerEmbeddedCoder.MathOperation.Gain gain1(k = -1) 
     annotation(Placement(transformation(origin={77.58333,19.9179},
 extent={{-5.58333,-6},{5.58333,6}})), __MWORKS(BlockSystem(Instance(y(OutputFlagForCAPI=true)))));
   SysplorerEmbeddedCoder.MathOperation.Gain gain2(k = 1) 
@@ -232,6 +241,22 @@ extent={{-5.58333,-6},{5.58333,6}})), __MWORKS(BlockSystem(Instance(y(OutputFlag
   SysplorerEmbeddedCoder.MathOperation.Gain gain8(k = 1) 
     annotation(Placement(transformation(origin={-95.58333,19.9179},
 extent={{-5.58333,-6},{5.58333,6}})), __MWORKS(BlockSystem(Instance(y(OutputFlagForCAPI=true)))));
+  SysplorerEmbeddedCoder.Port.Outport front_center_dist_out 
+    annotation(Placement(transformation(origin={-75,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport front_right_dist_out 
+    annotation(Placement(transformation(origin={-60,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport side_right_dist_out 
+    annotation(Placement(transformation(origin={-45,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport side_left_dist_out 
+    annotation(Placement(transformation(origin={-30,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport front_left_dist_out 
+    annotation(Placement(transformation(origin={-15,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport speed_cmd_out 
+    annotation(Placement(transformation(origin={15,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport steer_cmd_out 
+    annotation(Placement(transformation(origin={30,95},extent={{-5,-5},{5,5}})));
+  SysplorerEmbeddedCoder.Port.Outport fixed_servo_cmd_out 
+    annotation(Placement(transformation(origin={45,95},extent={{-5,-5},{5,5}})));
   model ModelWorkspace
     annotation(__MWORKS(hide = true,BlockSystem(blockKind=BlockKind.modelWorkspace)));
   end ModelWorkspace;
@@ -621,8 +646,7 @@ void GetCarMsg(double* sensor1_distence,double* sensor2_distence,double* sensor3
 {
 	// 获取传感器探测的距离
 	*sensor1_distence=getDistance(Echo1);
-	/* Team27 only installs four sensors. Echo2 is deliberately unused. */
-	*sensor2_distence=300.0;
+	*sensor2_distence=getDistance(Echo2);
 	*sensor3_distence=getDistance(Echo3);
 	*sensor4_distence=getDistance(Echo4);
 	*sensor5_distence=getDistance(Echo5);	
@@ -745,7 +769,7 @@ void GetCarMsg(double* sensor1_distence,double* sensor2_distence,double* sensor3
     end CCaller4;
     block CCaller5
       annotation(
-         __MWORKS(PortArrangement(Left(id,speed,time_ms), Right()),PortLabels(labelType="CustomType",labels(label(text="id",instance="id"),label(text="speed",instance="speed"),label(text="time_ms",instance="time_ms"))), BlockSystem(CCaller(currentFile = "JGB520.h"), blockKind = BlockKind.atomic, bltBlockKind = BltBlockKind.ccaller), independentInstance = true, sourceModel = SysplorerEmbeddedCoder.Utilities.CCaller, ExternalFunctionBlock, hide = true),
+         __MWORKS(PortArrangement(Left(id,speed,time_ms), Right()),PortLabels(labelType="CustomType",labels(label(text="id",instance="id"),label(text="speed",instance="speed"),label(text="time_ms",instance="time_ms"))), BlockSystem(blockKind = BlockKind.atomic, bltBlockKind = BltBlockKind.ccaller), independentInstance = true, sourceModel = SysplorerEmbeddedCoder.Utilities.CCaller, ExternalFunctionBlock, hide = true),
               Icon(coordinateSystem(extent = { {-200.0, -100.0}, {200.0, 100.0} },
               preserveAspectRatio = false,
               initialScale = 0.1,
@@ -776,7 +800,7 @@ void GetCarMsg(double* sensor1_distence,double* sensor2_distence,double* sensor3
 
       input SysplorerEmbeddedCoder.Types.Auto time_ms annotation(__MWORKS(BlockSystem(CParamName = "time_ms", Type(inherit = InheritType.none, ref="int32"), Dimension(dimensionType = DimensionType.none) = 1)));
 
-    external "C" motor_send_cmd(id, speed, time_ms) annotation(__MWORKS(BlockSystem(functionProto = "void  motor_send_cmd(int id,double speed,int time_ms)")));
+    external "C" motor_send_cmd(id, speed, time_ms) annotation(__MWORKS(BlockSystem(functionProto = "void motor_send_cmd(int id,double speed,int time_ms)")));
     end CCallerFunction;
       SysplorerEmbeddedCoder.Port.Inport id 
         annotation(__MWORKS(BlockSystem(Type(inherit = InheritType.none, ref = "int32"),Dimension(dimensionType = DimensionType.none) = 1)), Placement(transformation(origin = {0,0}, extent = { {-10,-10}, {10,10} })));
@@ -791,7 +815,7 @@ void GetCarMsg(double* sensor1_distence,double* sensor2_distence,double* sensor3
     end CCaller5;
     block CCaller2
       annotation(
-         __MWORKS(PortArrangement(Left(id,speed,time_ms), Right()),PortLabels(labelType="CustomType",labels(label(text="id",instance="id"),label(text="speed",instance="speed"),label(text="time_ms",instance="time_ms"))), BlockSystem(CCaller(currentFile = "JGB520.h"), blockKind = BlockKind.atomic, bltBlockKind = BltBlockKind.ccaller), independentInstance = true, sourceModel = SysplorerEmbeddedCoder.Utilities.CCaller, ExternalFunctionBlock, hide = true),
+         __MWORKS(PortArrangement(Left(id,speed,time_ms), Right()),PortLabels(labelType="CustomType",labels(label(text="id",instance="id"),label(text="speed",instance="speed"),label(text="time_ms",instance="time_ms"))), BlockSystem(blockKind = BlockKind.atomic, bltBlockKind = BltBlockKind.ccaller), independentInstance = true, sourceModel = SysplorerEmbeddedCoder.Utilities.CCaller, ExternalFunctionBlock, hide = true),
               Icon(coordinateSystem(extent = { {-200.0, -100.0}, {200.0, 100.0} },
               preserveAspectRatio = false,
               initialScale = 0.1,
@@ -822,7 +846,7 @@ void GetCarMsg(double* sensor1_distence,double* sensor2_distence,double* sensor3
 
       input SysplorerEmbeddedCoder.Types.Auto time_ms annotation(__MWORKS(BlockSystem(CParamName = "time_ms", Type(inherit = InheritType.none, ref="int32"), Dimension(dimensionType = DimensionType.none) = 1)));
 
-    external "C" motor_send_cmd(id, speed, time_ms) annotation(__MWORKS(BlockSystem(functionProto = "void  motor_send_cmd(int id,double speed,int time_ms)")));
+    external "C" motor_send_cmd(id, speed, time_ms) annotation(__MWORKS(BlockSystem(functionProto = "void motor_send_cmd(int id,double speed,int time_ms)")));
     end CCallerFunction;
       SysplorerEmbeddedCoder.Port.Inport id 
         annotation(__MWORKS(BlockSystem(Type(inherit = InheritType.none, ref = "int32"),Dimension(dimensionType = DimensionType.none) = 1)), Placement(transformation(origin = {0,0}, extent = { {-10,-10}, {10,10} })));
@@ -2089,7 +2113,7 @@ extent={{-1.8,-1.8},{1.8,1.8}})),__MWORKS(BlockSystem(Type(ref="double"),Dimensi
     color={0,0,0}));
     end SubSystem2;
 equation
-  connect(constant1.y, raspberry_SetMsg.u4) 
+  connect(subSystem.fu_sensor_cmd, raspberry_SetMsg.u4) 
     annotation(Line(origin={88.5667,8.8755},
 points={{-3.60004,46.4836},{28.5,46.4836},{28.5,53.5719},{32.3,53.5719}},
 color={0,0,0}), __MWORKS(BlockSystem(NamedSignal)));
@@ -2125,7 +2149,7 @@ color={0,0,0}), __MWORKS(BlockSystem(NamedSignal)));
     annotation(Line(origin={-92,77},
 points={{-23.2,-0.37614},{-10.9667,-0.37608}},
 color={0,0,0}));
-  connect(gain3.y, subSystem.sensor1) 
+  connect(gain3.y, subSystem.front_dist) 
     annotation(Line(origin={-49,77},
 points={{-39.2,-0.37608},{16.8667,-0.37614}},
 color={0,0,0}));
@@ -2133,7 +2157,7 @@ color={0,0,0}));
     annotation(Line(origin={-92,62},
 points={{-23.2,0.44738},{-10.9667,0.44742}},
 color={0,0,0}));
-  connect(gain4.y, subSystem.sensor2) 
+  connect(gain4.y, subSystem.fu_dist) 
     annotation(Line(origin={-49,62},
 points={{-39.2,0.44742},{16.8667,0.44738}},
 color={0,0,0}));
@@ -2141,7 +2165,7 @@ color={0,0,0}));
     annotation(Line(origin={-92,48},
 points={{-23.2,0.2709},{-10.9667,0.27092}},
 color={0,0,0}));
-  connect(gain5.y, subSystem.sensor3) 
+  connect(gain5.y, subSystem.right_dist) 
     annotation(Line(origin={-49,48},
 points={{-39.2,0.27092},{16.8667,0.2709}},
 color={0,0,0}));
@@ -2149,7 +2173,7 @@ color={0,0,0}));
     annotation(Line(origin={-92,34},
 points={{-23.2,0.09442},{-10.9667,0.09442}},
 color={0,0,0}));
-  connect(gain6.y, subSystem.sensor4) 
+  connect(gain6.y, subSystem.left_dist) 
     annotation(Line(origin={-49,34},
 points={{-39.2,0.09442},{16.8667,0.09442}},
 color={0,0,0}));
@@ -2157,8 +2181,16 @@ color={0,0,0}));
     annotation(Line(origin={-92,20},
 points={{-23.2,-0.08206},{-10.9667,-0.08208}},
 color={0,0,0}));
-  connect(gain8.y, subSystem.sensor5) 
+  connect(gain8.y, subSystem.rear_dist) 
     annotation(Line(origin={-49,20},
 points={{-39.2,-0.08208},{16.8667,-0.08206}},
 color={0,0,0}));
+  connect(gain3.y, front_center_dist_out);
+  connect(gain4.y, front_right_dist_out);
+  connect(gain5.y, side_right_dist_out);
+  connect(gain6.y, side_left_dist_out);
+  connect(gain8.y, front_left_dist_out);
+  connect(gain1.y, speed_cmd_out);
+  connect(gain2.y, steer_cmd_out);
+  connect(subSystem.fu_sensor_cmd, fixed_servo_cmd_out);
 end for_code_JGB520_Team27;

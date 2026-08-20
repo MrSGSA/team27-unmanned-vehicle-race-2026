@@ -1,20 +1,19 @@
+"""只读审计 MWORKS 生成物；禁止对生成后的 C 代码做二次修正。"""
+
 import argparse
+import json
 import pathlib
-import re
 import sys
 
 
-SAFE_TERMINATE = """void steer_cmd(double steer);
+def require(source: str, token: str, message: str) -> None:
+    if token not in source:
+        raise RuntimeError(message)
 
-void Terminate()
-{
-  motor_send_cmd(2, 0, 0);
-  motor_send_cmd(1, 0, 0);
-  steer_cmd(0.0);
-  if (fd >= 0) serialClose(fd);
-}
 
-void Step"""
+def reject(source: str, token: str, message: str) -> None:
+    if token in source:
+        raise RuntimeError(message)
 
 
 def main():
@@ -23,36 +22,117 @@ def main():
     args = parser.parse_args()
     directory = pathlib.Path(args.directory)
     model_c = directory / "for_code_JGB520_Team27.c"
-    sensor_c = directory / "extern_inc" / "momodel_extern_ince2.c"
-    controller_c = directory / "extern_inc" / "momodel_extern_ince1.c"
+    capi_c = directory / "for_code_JGB520_Team27_capi.c"
+    extern_include = directory / "for_code_JGB520_Team27_extern_include.h"
+    external_resource = directory / "ExternalCResource.json"
+    extern_dir = directory / "extern_inc"
 
-    for path in (model_c, sensor_c, controller_c):
-        if not path.is_file():
-            raise RuntimeError(f"missing generated file: {path}")
-    sensor_source = sensor_c.read_text(encoding="utf-8")
-    if "*sensor2_distence=300.0;" not in sensor_source:
-        raise RuntimeError("generated code does not contain the four-sensor Echo2 bypass")
-    if "Team27_ControllerStep" not in controller_c.read_text(encoding="utf-8"):
-        raise RuntimeError("generated code does not contain the Team27 controller")
+    if not model_c.is_file():
+        raise RuntimeError(f"missing generated file: {model_c}")
+    if not capi_c.is_file():
+        raise RuntimeError(f"missing generated CAPI file: {capi_c}")
+    if not extern_include.is_file():
+        raise RuntimeError(f"missing generated external include: {extern_include}")
+    if not external_resource.is_file():
+        raise RuntimeError(f"missing external-resource manifest: {external_resource}")
+    if not extern_dir.is_dir():
+        raise RuntimeError(f"missing generated external-interface directory: {extern_dir}")
 
-    source = model_c.read_text(encoding="utf-8")
-    updated, count = re.subn(
-        r"(?:void steer_cmd\(double steer\);\s*)?void Terminate\(\)\s*\{.*?\}\s*\n\s*void Step",
-        SAFE_TERMINATE,
-        source,
-        count=1,
-        flags=re.DOTALL,
+    model_source = model_c.read_text(encoding="utf-8")
+    capi_source = capi_c.read_text(encoding="utf-8")
+    extern_include_source = extern_include.read_text(encoding="utf-8")
+    resource = json.loads(external_resource.read_text(encoding="utf-8"))
+    extern_source = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in sorted(extern_dir.glob("*.c"))
     )
-    if count != 1:
-        raise RuntimeError("could not install the safe Terminate routine")
-    model_c.write_text(updated, encoding="utf-8", newline="\n")
-    sensor_c.write_text(
-        sensor_source.replace('printf("speed = %d\\n ",speed);',
-                              'printf("speed = %f\\n ",speed);'),
-        encoding="utf-8",
-        newline="\n",
-    )
-    print("OK: generated controller and sensor mapping verified; safe stop installed")
+    all_generated = model_source + "\n" + extern_source
+
+    # V3五固定探头控制参数、连续空旷度决策和零舵机命令必须全部来自
+    # MWORKS主模型生成代码。这里仅审计，绝不修改生成后的C代码。
+    for token in (
+        "frontWarn = (MwbDouble)((20))",
+        "frontStrong = (MwbDouble)((12))",
+        "frontEmergency = 5.5",
+        "frontRelease = (MwbDouble)((25))",
+        "frontSectorEmergency = (MwbDouble)((6))",
+        "sideEmergency = 4.5",
+        "sideCorrection = (MwbDouble)((8))",
+        "scoreCap = (MwbDouble)((40))",
+        "directionHysteresis = 2.5",
+        "clockwiseBias = 0.5",
+        "localDw->leftScore = 0.82 * localDw->flCap + 0.18 * localDw->slCap",
+        "localDw->rightScore = 0.82 * localDw->frCap + 0.18 * localDw->srCap",
+        "localDw->directionLock = (MwbDouble)((1))",
+        "localDw->directionLock = (MwbDouble)(((-1)))",
+        "*speed = (MwbDouble)((160))",
+        "*speed = (MwbDouble)((85))",
+        "*steer = 0.55",
+        "*steer = (-0.55)",
+        "*servo = (MwbDouble)((0))",
+        "localDw->k = 0.12",
+        "localDw->k_b = (-0.12)",
+    ):
+        require(model_source, token, f"pure-MWORKS control evidence missing: {token}")
+
+    for token in (
+        "backupNeeded",
+        "scanReady",
+        "fu_disl",
+        "fu_disr",
+        "*speed = (MwbDouble)(((-",
+        "*servo = 0.55",
+        "*servo = (-0.55)",
+    ):
+        reject(model_source, token, f"obsolete scan/reverse behaviour detected: {token}")
+
+    # 禁止重新引入手写 C 控制器；extern_inc 只允许官方硬件接口。
+    for token in ("Team27_ControllerStep", "team27_state", "scannerOut"):
+        reject(all_generated, token, f"handwritten C controller detected: {token}")
+
+    # M.GenerateModelCode把SourceFile放进extern_inc；ExternalMode则把它复制
+    # 到部署根目录。两种目录形态都只允许存在一份官方JGB520实现。
+    if resource.get("SourceFile") != ["JGB520.c"]:
+        raise RuntimeError("official JGB520.c must be the only SourceFile")
+    if "JGB520.h" not in resource.get("IncludeFile", []):
+        raise RuntimeError("official JGB520.h must remain an IncludeFile")
+    require(extern_include_source, '#include "JGB520.h"',
+            "official JGB520 header is not routed into generated code")
+    reject(extern_include_source, "MWORKS_JGB520_LinkCompat.h",
+           "obsolete motor-symbol compatibility header is still active")
+    embedded_jgb_count = extern_source.count('#include "JGB520.c"')
+    copied_jgb_count = int((directory / "JGB520.c").is_file())
+    if embedded_jgb_count + copied_jgb_count != 1:
+        raise RuntimeError(
+            "exactly one official JGB520 implementation is required; "
+            f"embedded={embedded_jgb_count}, copied={copied_jgb_count}"
+        )
+    reject(model_source, "team27_motor_send(",
+           "model must call the official motor_send_cmd symbol")
+    if model_source.count("motor_send_cmd(") < 4:
+        raise RuntimeError("official motor_send_cmd calls are missing")
+
+    # 只导出顶层根输出，避开2026a对已展平子系统生成无效CAPI地址的问题。
+    reject(capi_source, ".ObsAvoidController_Team27_MWorks",
+           "invalid nested-controller CAPI reference detected")
+    for token in (
+        "front_center_dist_out", "front_right_dist_out", "side_right_dist_out",
+        "side_left_dist_out", "front_left_dist_out", "speed_cmd_out",
+        "steer_cmd_out", "fixed_servo_cmd_out",
+    ):
+        require(capi_source, token, f"root CAPI monitor missing: {token}")
+
+    require(extern_source, "*sensor2_distence=getDistance(Echo2)",
+            "rotating ultrasonic sensor is not routed by the official interface")
+    require(model_source, "front_sensor_cmd", "scanner servo output is not generated")
+    # The two motor-stop commands are part of the official model's Terminate.
+    # Do not inject extra steering/scanner/serial-close C code here.
+    for token in ("motor_send_cmd(2, 0, 0)", "motor_send_cmd(1, 0, 0)"):
+        require(model_source, token, f"official Terminate evidence missing: {token}")
+    for token in ("steer_cmd(0.0)", "front_sensor_cmd(0.0)", "serialClose(fd)"):
+        reject(model_source, token, f"non-official Terminate code detected: {token}")
+
+    print("OK: V3 five-fixed-ultrasonic pure-MWORKS control verified; no handwritten C controller")
 
 
 if __name__ == "__main__":

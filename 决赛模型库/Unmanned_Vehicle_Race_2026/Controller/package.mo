@@ -1,0 +1,3 @@
+package Controller "Team27纯MWORKS控制策略"
+  annotation(__MWORKS(version="26.3.0"));
+end Controller;

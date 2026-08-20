@@ -287,7 +287,7 @@ int rasInit()
 	 if(wiringPiSetup() == -1)
 	 {   
 	 	printf(\"硬件初始化失败！\\n\");
-	 	return ;
+	 	return 1;
 	 }
   printf(\"wiringPiSetup ok!\\n\");
 	pinMode(Trig1, OUTPUT);   // 配置端口为输出模式

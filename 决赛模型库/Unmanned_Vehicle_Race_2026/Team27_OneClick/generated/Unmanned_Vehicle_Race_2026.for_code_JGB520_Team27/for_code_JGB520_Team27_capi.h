@@ -6,17 +6,18 @@
  *
  * 该文件由MWORKS内核代码生成器自动生成。
  *
- * 文件名称: for_code_JGB520_Team27_extern_include.h
+ * 文件名称: for_code_JGB520_Team27_capi.h
  * 生成时间: 2026-08-20 14:01:17
  *
 ********************************************************************************/
 
-#ifndef a_TEAM27_EXTERN_INCLUDE_H
-#define a_TEAM27_EXTERN_INCLUDE_H
+#ifndef FOR_CODE_JGB520_TEAM27_CAPI_H
+#define FOR_CODE_JGB520_TEAM27_CAPI_H
 
-#include "JGB520.h"
+extern const Mwb_CAPI_ModelMappingStaticInfo* for_code_JGB520_Team27_GetCAPIStaticMap(void);
+extern void for_code_JGB520_Team27_InitializeDataMapInfo(void);
 
-#endif /* a_TEAM27_EXTERN_INCLUDE_H */
+#endif /* FOR_CODE_JGB520_TEAM27_CAPI_H */
 
 /********************************************************************************
 ** end of file

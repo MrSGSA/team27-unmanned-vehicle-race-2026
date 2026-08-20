@@ -14,7 +14,10 @@ MODEL_CANDIDATES = (
 )
 
 
-def ensure_session():
+def ensure_session(port=None):
+    if port is not None:
+        M.ConnectSysplorer(port=port)
+        return
     ports = M.FindSysplorer()
     if ports:
         M.ConnectSysplorer(port=ports[-1])
@@ -34,12 +37,18 @@ def main():
     parser.add_argument("--controller", required=True)
     parser.add_argument("--vehicle", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--port", type=int)
     args = parser.parse_args()
 
-    ensure_session()
-    for path in (args.controller, args.vehicle):
-        if not M.OpenModelFile(path, autoReload=True):
-            raise RuntimeError(f"failed to load model file: {path}")
+    ensure_session(args.port)
+    package_path = os.path.join(os.path.dirname(os.path.abspath(args.vehicle)), "package.mo")
+    if not os.path.isfile(package_path):
+        raise RuntimeError(f"library package file was not found: {package_path}")
+    # Load the complete library so Controller is resolved as a real subpackage.
+    # Opening the controller file alone makes it a temporary global class and
+    # causes the graphical top model to show a red missing-component cross.
+    if not M.OpenModelFile(package_path, autoReload=True):
+        raise RuntimeError(f"failed to load complete model library: {package_path}")
 
     model = next((name for name in MODEL_CANDIDATES if M.ClassExist(name)), None)
     if model is None:
@@ -51,17 +60,17 @@ def main():
     os.makedirs(output, exist_ok=True)
     with contextlib.redirect_stdout(io.StringIO()):
         options = M.GetModelCodeGenerationOptions(model)
-    options["CodePlatform.OutPath"]["output"] = output
-    options["CodeCustom.InsertSectionGlobalVariableDefine"]["tail"] = (
-        "void Terminate()\n{\n"
-        "  motor_send_cmd(2, 0, 0);\n"
-        "  motor_send_cmd(1, 0, 0);\n"
-        "  steer_cmd(0.0);\n"
-        "  if (fd >= 0) serialClose(fd);\n"
-        "}\n"
-    )
-    if not M.SetModelCodeGenerationOptions(model, options):
-        raise RuntimeError("failed to apply code-generation options")
+    configured_output = os.path.abspath(
+        options["CodePlatform.OutPath"]["output"]
+    ).replace("\\", "/")
+    if configured_output.casefold() != output.casefold():
+        raise RuntimeError(
+            "requested output does not match the fixed model output; "
+            f"requested={output}, configured={configured_output}"
+        )
+    # Do not call SetModelCodeGenerationOptions here. Sysplorer 2026a omits
+    # ExternalMode/CAPI fields from GetModelCodeGenerationOptions, so writing
+    # that partial dictionary back silently deletes the CAPI configuration.
     if not M.GenerateModelCode(model):
         raise RuntimeError("Sysplorer code generation failed")
     print(f"OK: {model} -> {output}")

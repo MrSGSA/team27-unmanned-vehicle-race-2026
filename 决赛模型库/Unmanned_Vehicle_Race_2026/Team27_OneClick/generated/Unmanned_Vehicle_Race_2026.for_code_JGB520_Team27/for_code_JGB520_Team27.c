@@ -7,7 +7,7 @@
  * 该文件由MWORKS内核代码生成器自动生成。
  *
  * 文件名称: for_code_JGB520_Team27.c
- * 生成时间: 2026-08-12 20:35:14
+ * 生成时间: 2026-08-20 14:01:17
  *
 ********************************************************************************/
 
@@ -16,97 +16,1116 @@
 #include "for_code_JGB520_Team27_private.h"
 #include "for_code_JGB520_Team27_extern_include.h"
 
+#include "for_code_JGB520_Team27_capi.h"
+
+struct for_code_jgb520_team27ExtY for_code_jgb520_team27GbOut;
 struct for_code_jgb520_team27B for_code_jgb520_team27GbB;
 struct for_code_jgb520_team27Dw for_code_jgb520_team27GbDw;
 static struct for_code_jgb520_team27TagEmd for_code_jgb520_team27StMd;
 for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd = &for_code_jgb520_team27StMd;
-void steer_cmd(double steer);
-
 void Terminate()
 {
-  motor_send_cmd(2, 0, 0);
-  motor_send_cmd(1, 0, 0);
-  steer_cmd(0.0);
-  if (fd >= 0) serialClose(fd);
+  fd = serialOpen("/dev/ttyAMA0", 115200);
+  delayMicroseconds(20000);
+  motor_send_cmd(2, 0, 0); 
+motor_send_cmd(1, 0, 0); 
 }
 
 void Step(void)
 {
-  for_code_jgb520_team27GbB.y_ca = for_code_jgb520_team27GbDw.k_ba;
-  for_code_jgb520_team27GbB.y_ea = for_code_jgb520_team27GbDw.k_da;
-  for_code_jgb520_team27GbB.y_ga = for_code_jgb520_team27GbDw.k_fa;
-  for_code_jgb520_team27GbB.y_ia = for_code_jgb520_team27GbDw.k_ha;
-  for_code_jgb520_team27GbB.y_ka = for_code_jgb520_team27GbDw.k_ja;
+  MwbDouble tmp=0.0;
+  for_code_jgb520_team27GbB.y_u = for_code_jgb520_team27GbDw.k_t;
+  for_code_jgb520_team27GbB.y_w = for_code_jgb520_team27GbDw.k_v;
+  for_code_jgb520_team27GbB.y_y = for_code_jgb520_team27GbDw.k_x;
+  for_code_jgb520_team27GbB.y_ba = for_code_jgb520_team27GbDw.k_aa;
+  for_code_jgb520_team27GbB.y_da = for_code_jgb520_team27GbDw.k_ca;
   {
     void rear_sensor_cmd(const MwbDouble);
-    rear_sensor_cmd(for_code_jgb520_team27GbB.y_ka);
-  }
-  {
-    void front_sensor_cmd(const MwbDouble);
-    front_sensor_cmd(for_code_jgb520_team27GbB.y_ka);
+    rear_sensor_cmd(for_code_jgb520_team27GbB.y_da);
   }
   {
     void GetCarMsg(MwbDouble* , MwbDouble* , MwbDouble* , MwbDouble* , MwbDouble* );
     GetCarMsg(&(for_code_jgb520_team27GbB.sensor1_distence), &(for_code_jgb520_team27GbB.sensor2_distence), &(for_code_jgb520_team27GbB.sensor3_distence), 
     &(for_code_jgb520_team27GbB.sensor4_distence), &(for_code_jgb520_team27GbB.sensor5_distence));
   }
-  for_code_jgb520_team27GbB.y = for_code_jgb520_team27GbDw.k * for_code_jgb520_team27GbB.sensor1_distence;
-  for_code_jgb520_team27GbB.y_c = for_code_jgb520_team27GbDw.k_d * for_code_jgb520_team27GbB.sensor2_distence;
-  for_code_jgb520_team27GbB.y_f = for_code_jgb520_team27GbDw.k_g * for_code_jgb520_team27GbB.sensor3_distence;
-  for_code_jgb520_team27GbB.y_i = for_code_jgb520_team27GbDw.k_j * for_code_jgb520_team27GbB.sensor4_distence;
-  for_code_jgb520_team27GbB.y_l = for_code_jgb520_team27GbDw.k_m * for_code_jgb520_team27GbB.sensor5_distence;
-  Obsavoidcontroller_team27_fflf7(for_code_jgb520_team27GbB.y, for_code_jgb520_team27GbB.y_c, for_code_jgb520_team27GbB.y_f, for_code_jgb520_team27GbB.y_i, 
-  for_code_jgb520_team27GbB.y_l, &for_code_jgb520_team27GbDw.u_u, &for_code_jgb520_team27GbDw.u_n, for_code_jgb520_team27GbMd, &for_code_jgb520_team27GbB.subSystem, 
-  &for_code_jgb520_team27GbDw.subSystem);
-  for_code_jgb520_team27GbB.y_o = for_code_jgb520_team27GbDw.k_p * for_code_jgb520_team27GbDw.u_n;
+  for_code_jgb520_team27GbOut.front_center_dist_out = for_code_jgb520_team27GbDw.k * for_code_jgb520_team27GbB.sensor1_distence;
+  for_code_jgb520_team27GbOut.front_right_dist_out = for_code_jgb520_team27GbDw.k_b * for_code_jgb520_team27GbB.sensor2_distence;
+  for_code_jgb520_team27GbOut.side_right_dist_out = for_code_jgb520_team27GbDw.k_d * for_code_jgb520_team27GbB.sensor3_distence;
+  for_code_jgb520_team27GbOut.side_left_dist_out = for_code_jgb520_team27GbDw.k_f * for_code_jgb520_team27GbB.sensor4_distence;
+  for_code_jgb520_team27GbOut.front_left_dist_out = for_code_jgb520_team27GbDw.k_h * for_code_jgb520_team27GbB.sensor5_distence;
+  Obsavoidcontroller_team27_mwo27(for_code_jgb520_team27GbOut.front_center_dist_out, for_code_jgb520_team27GbOut.front_left_dist_out, 
+  for_code_jgb520_team27GbOut.side_right_dist_out, for_code_jgb520_team27GbOut.side_left_dist_out, for_code_jgb520_team27GbOut.front_right_dist_out, 
+  &for_code_jgb520_team27GbDw.u_n, &for_code_jgb520_team27GbDw.u_i, &tmp, &for_code_jgb520_team27GbOut.fixed_servo_cmd_out, for_code_jgb520_team27GbMd, 
+  &for_code_jgb520_team27GbB.subSystem, &for_code_jgb520_team27GbDw.subSystem);
+  for_code_jgb520_team27GbOut.steer_cmd_out = for_code_jgb520_team27GbDw.k_j * for_code_jgb520_team27GbDw.u_i;
   {
     void steer_cmd(const MwbDouble);
-    steer_cmd(for_code_jgb520_team27GbB.y_o);
+    steer_cmd(for_code_jgb520_team27GbOut.steer_cmd_out);
   }
-  for_code_jgb520_team27GbB.y_s = for_code_jgb520_team27GbDw.k_t * for_code_jgb520_team27GbDw.u_u;
+  for_code_jgb520_team27GbOut.speed_cmd_out = for_code_jgb520_team27GbDw.k_m * for_code_jgb520_team27GbDw.u_n;
   {
-    void  motor_send_cmd(int id,double speed,int time_ms);
-    motor_send_cmd(for_code_jgb520_team27GbB.y_ea, for_code_jgb520_team27GbB.y_s, for_code_jgb520_team27GbB.y_ia);
+    void motor_send_cmd(int id,double speed,int time_ms);
+    motor_send_cmd(for_code_jgb520_team27GbB.y_w, for_code_jgb520_team27GbOut.speed_cmd_out, for_code_jgb520_team27GbB.y_ba);
   }
-  for_code_jgb520_team27GbB.y_v = for_code_jgb520_team27GbDw.k_w * for_code_jgb520_team27GbDw.u_u;
+  for_code_jgb520_team27GbB.y = for_code_jgb520_team27GbDw.k_o * for_code_jgb520_team27GbDw.u_n;
   {
-    void  motor_send_cmd(int id,double speed,int time_ms);
-    motor_send_cmd(for_code_jgb520_team27GbB.y_ca, for_code_jgb520_team27GbB.y_v, for_code_jgb520_team27GbB.y_ga);
+    void motor_send_cmd(int id,double speed,int time_ms);
+    motor_send_cmd(for_code_jgb520_team27GbB.y_u, for_code_jgb520_team27GbB.y, for_code_jgb520_team27GbB.y_y);
+  }
+  {
+    void front_sensor_cmd(const MwbDouble);
+    front_sensor_cmd(for_code_jgb520_team27GbOut.fixed_servo_cmd_out);
   }
   ++for_code_jgb520_team27GbMd->m_timeTickCount;
 }
 
 void Init(void)
 {
+  MwbDouble tmp=0.0;
   for_code_jgb520_team27GbMd->m_stepSize = 0.05;
-  for_code_jgb520_team27GbDw.k_ba = 2;
-  for_code_jgb520_team27GbDw.k_da = 1;
-  for_code_jgb520_team27GbDw.k_fa = 0;
-  for_code_jgb520_team27GbDw.k_ha = 0;
-  for_code_jgb520_team27GbDw.k_ja = (MwbDouble)((0));
+  for_code_jgb520_team27GbDw.k_t = 2;
+  for_code_jgb520_team27GbDw.k_v = 1;
+  for_code_jgb520_team27GbDw.k_x = 0;
+  for_code_jgb520_team27GbDw.k_aa = 0;
+  for_code_jgb520_team27GbDw.k_ca = (MwbDouble)((0));
   for_code_jgb520_team27GbDw.k = (MwbDouble)((1));
+  for_code_jgb520_team27GbDw.k_b = (MwbDouble)((1));
   for_code_jgb520_team27GbDw.k_d = (MwbDouble)((1));
-  for_code_jgb520_team27GbDw.k_g = (MwbDouble)((1));
+  for_code_jgb520_team27GbDw.k_f = (MwbDouble)((1));
+  for_code_jgb520_team27GbDw.k_h = (MwbDouble)((1));
   for_code_jgb520_team27GbDw.k_j = (MwbDouble)((1));
-  for_code_jgb520_team27GbDw.k_m = (MwbDouble)((1));
-  for_code_jgb520_team27GbDw.k_p = (MwbDouble)((1));
-  for_code_jgb520_team27GbDw.k_t = (MwbDouble)((1));
-  for_code_jgb520_team27GbDw.k_w = (MwbDouble)(((-1)));
+  for_code_jgb520_team27GbDw.k_m = (MwbDouble)(((-1)));
+  for_code_jgb520_team27GbDw.k_o = (MwbDouble)((1));
+  Obsavoidcontroller_team27_mwo28(for_code_jgb520_team27GbOut.front_center_dist_out, for_code_jgb520_team27GbOut.front_left_dist_out, 
+  for_code_jgb520_team27GbOut.side_right_dist_out, for_code_jgb520_team27GbOut.side_left_dist_out, for_code_jgb520_team27GbOut.front_right_dist_out, 
+  &for_code_jgb520_team27GbDw.u_n, &for_code_jgb520_team27GbDw.u_i, &tmp, &for_code_jgb520_team27GbOut.fixed_servo_cmd_out, for_code_jgb520_team27GbMd, 
+  &for_code_jgb520_team27GbB.subSystem, &for_code_jgb520_team27GbDw.subSystem);
   {
     void rasInit(void);
     rasInit();
   }
+  for_code_JGB520_Team27_InitializeDataMapInfo();
 }
 
 
-void Obsavoidcontroller_team27_fflf7(MwbDouble sensor1, MwbDouble sensor2, MwbDouble sensor3, MwbDouble sensor4, MwbDouble sensor5, 
-  MwbDouble* speed, MwbDouble* steer, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct Obsavoidcontroller_team27_fflf2* 
-  localB, struct Obsavoidcontroller_team27_fflf3* localDw)
+void m27FilterfcInit(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27FilterfcB* 
+  localB, struct FilterfcDw* localDw)
 {
+  localDw->k = (MwbDouble)((2));
+  localDw->k_b = (MwbDouble)((250));
+  localDw->k_d = (MwbDouble)((1));
+  localDw->k_f = (MwbDouble)((0));
+  localDw->k_h = 0.5;
+  localDw->k_j = 0.05;
+  localDw->k_l = 0.15;
+  localDw->initCond = (MwbDouble)((100));
+  localDw->yb = localDw->initCond;
+  localDw->k_fa = 0.1;
+  localDw->k_qa = 0.9;
+  localDw->initCond_ua = (MwbDouble)((0));
+  localDw->yb_ya = localDw->initCond_ua;
+}
+
+void for_code_jgb520_team27Filterfc(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+for_code_jgb520_team27FilterfcB* localB, struct FilterfcDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_e = localDw->k_d;
+  localB->y_g = localDw->k_f;
+  localB->y_i = localDw->k_h;
+  localB->y_k = localDw->k_j;
+  localB->y_m = localDw->k_l;
+  localB->y_n = raw > localB->y_a;
+  localB->y_q = localB->y_c > raw;
+  if (localB->y_n != (0U))
   {
-    void Team27_ControllerStep(const MwbDouble, const MwbDouble, const MwbDouble, const MwbDouble, const MwbDouble, MwbDouble* , MwbDouble* 
-    );
-    Team27_ControllerStep(sensor1, sensor2, sensor3, sensor4, sensor5, &(*speed), &(*steer));
+    localB->y_r = localB->y_e;
+  }
+  else
+  {
+    localB->y_r = localB->y_g;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_u = localB->y_r;
+  }
+  else
+  {
+    localB->y_u = localB->y_g;
+  }
+  localB->y_ba = localB->y_u > localB->y_i;
+  localB->y_da = localDw->yb;
+  localB->y_ea = localDw->k_fa * localB->y_da;
+  if (localB->y_n != (0U))
+  {
+    localB->y_ga = raw;
+  }
+  else
+  {
+    localB->y_ga = localB->y_da;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_ka = localB->y_ga;
+  }
+  else
+  {
+    localB->y_ka = localB->y_da;
+  }
+  localB->y_pa = localDw->k_qa * localB->y_ka;
+  localB->y_ra = localB->y_pa + localB->y_ea;
+  localB->y_wa = localDw->yb_ya;
+  localB->y_bb = localB->y_m > localB->y_wa;
+  if (localB->y_bb != (0U))
+  {
+    *y = localB->y_ra;
+  }
+  else
+  {
+    *y = localB->y_g;
+  }
+  localB->y_fb = localB->y_wa + localB->y_k;
+  if (localB->y_ba != (0U))
+  {
+    localB->y_ib = localB->y_g;
+  }
+  else
+  {
+    localB->y_ib = localB->y_fb;
+  }
+  localDw->yb = localB->y_ra;
+  localDw->yb_ya = localB->y_ib;
+}
+void m27FilterflInit(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27FilterflB* 
+  localB, struct aFilterflDw* localDw)
+{
+  localDw->k = (MwbDouble)((2));
+  localDw->k_b = (MwbDouble)((250));
+  localDw->k_d = (MwbDouble)((1));
+  localDw->k_f = (MwbDouble)((0));
+  localDw->k_h = 0.5;
+  localDw->k_j = 0.05;
+  localDw->k_l = 0.15;
+  localDw->initCond = (MwbDouble)((100));
+  localDw->yb = localDw->initCond;
+  localDw->k_fa = 0.1;
+  localDw->k_qa = 0.9;
+  localDw->initCond_ua = (MwbDouble)((0));
+  localDw->yb_ya = localDw->initCond_ua;
+}
+
+void for_code_jgb520_team27Filterfl(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+for_code_jgb520_team27FilterflB* localB, struct aFilterflDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_e = localDw->k_d;
+  localB->y_g = localDw->k_f;
+  localB->y_i = localDw->k_h;
+  localB->y_k = localDw->k_j;
+  localB->y_m = localDw->k_l;
+  localB->y_n = raw > localB->y_a;
+  localB->y_q = localB->y_c > raw;
+  if (localB->y_n != (0U))
+  {
+    localB->y_r = localB->y_e;
+  }
+  else
+  {
+    localB->y_r = localB->y_g;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_u = localB->y_r;
+  }
+  else
+  {
+    localB->y_u = localB->y_g;
+  }
+  localB->y_ba = localB->y_u > localB->y_i;
+  localB->y_da = localDw->yb;
+  localB->y_ea = localDw->k_fa * localB->y_da;
+  if (localB->y_n != (0U))
+  {
+    localB->y_ga = raw;
+  }
+  else
+  {
+    localB->y_ga = localB->y_da;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_ka = localB->y_ga;
+  }
+  else
+  {
+    localB->y_ka = localB->y_da;
+  }
+  localB->y_pa = localDw->k_qa * localB->y_ka;
+  localB->y_ra = localB->y_pa + localB->y_ea;
+  localB->y_wa = localDw->yb_ya;
+  localB->y_bb = localB->y_m > localB->y_wa;
+  if (localB->y_bb != (0U))
+  {
+    *y = localB->y_ra;
+  }
+  else
+  {
+    *y = localB->y_g;
+  }
+  localB->y_fb = localB->y_wa + localB->y_k;
+  if (localB->y_ba != (0U))
+  {
+    localB->y_ib = localB->y_g;
+  }
+  else
+  {
+    localB->y_ib = localB->y_fb;
+  }
+  localDw->yb = localB->y_ra;
+  localDw->yb_ya = localB->y_ib;
+}
+void m27FilterfrInit(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27FilterfrB* 
+  localB, struct aFilterfrDw* localDw)
+{
+  localDw->k = (MwbDouble)((2));
+  localDw->k_b = (MwbDouble)((250));
+  localDw->k_d = (MwbDouble)((1));
+  localDw->k_f = (MwbDouble)((0));
+  localDw->k_h = 0.5;
+  localDw->k_j = 0.05;
+  localDw->k_l = 0.15;
+  localDw->initCond = (MwbDouble)((100));
+  localDw->yb = localDw->initCond;
+  localDw->k_fa = 0.1;
+  localDw->k_qa = 0.9;
+  localDw->initCond_ua = (MwbDouble)((0));
+  localDw->yb_ya = localDw->initCond_ua;
+}
+
+void for_code_jgb520_team27Filterfr(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+for_code_jgb520_team27FilterfrB* localB, struct aFilterfrDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_e = localDw->k_d;
+  localB->y_g = localDw->k_f;
+  localB->y_i = localDw->k_h;
+  localB->y_k = localDw->k_j;
+  localB->y_m = localDw->k_l;
+  localB->y_n = raw > localB->y_a;
+  localB->y_q = localB->y_c > raw;
+  if (localB->y_n != (0U))
+  {
+    localB->y_r = localB->y_e;
+  }
+  else
+  {
+    localB->y_r = localB->y_g;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_u = localB->y_r;
+  }
+  else
+  {
+    localB->y_u = localB->y_g;
+  }
+  localB->y_ba = localB->y_u > localB->y_i;
+  localB->y_da = localDw->yb;
+  localB->y_ea = localDw->k_fa * localB->y_da;
+  if (localB->y_n != (0U))
+  {
+    localB->y_ga = raw;
+  }
+  else
+  {
+    localB->y_ga = localB->y_da;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_ka = localB->y_ga;
+  }
+  else
+  {
+    localB->y_ka = localB->y_da;
+  }
+  localB->y_pa = localDw->k_qa * localB->y_ka;
+  localB->y_ra = localB->y_pa + localB->y_ea;
+  localB->y_wa = localDw->yb_ya;
+  localB->y_bb = localB->y_m > localB->y_wa;
+  if (localB->y_bb != (0U))
+  {
+    *y = localB->y_ra;
+  }
+  else
+  {
+    *y = localB->y_g;
+  }
+  localB->y_fb = localB->y_wa + localB->y_k;
+  if (localB->y_ba != (0U))
+  {
+    localB->y_ib = localB->y_g;
+  }
+  else
+  {
+    localB->y_ib = localB->y_fb;
+  }
+  localDw->yb = localB->y_ra;
+  localDw->yb_ya = localB->y_ib;
+}
+void m27FilterslInit(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27FilterslB* 
+  localB, struct aFilterslDw* localDw)
+{
+  localDw->k = (MwbDouble)((2));
+  localDw->k_b = (MwbDouble)((250));
+  localDw->k_d = (MwbDouble)((1));
+  localDw->k_f = (MwbDouble)((0));
+  localDw->k_h = 0.5;
+  localDw->k_j = 0.05;
+  localDw->k_l = 0.15;
+  localDw->initCond = (MwbDouble)((100));
+  localDw->yb = localDw->initCond;
+  localDw->k_fa = 0.1;
+  localDw->k_qa = 0.9;
+  localDw->initCond_ua = (MwbDouble)((0));
+  localDw->yb_ya = localDw->initCond_ua;
+}
+
+void for_code_jgb520_team27Filtersl(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+for_code_jgb520_team27FilterslB* localB, struct aFilterslDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_e = localDw->k_d;
+  localB->y_g = localDw->k_f;
+  localB->y_i = localDw->k_h;
+  localB->y_k = localDw->k_j;
+  localB->y_m = localDw->k_l;
+  localB->y_n = raw > localB->y_a;
+  localB->y_q = localB->y_c > raw;
+  if (localB->y_n != (0U))
+  {
+    localB->y_r = localB->y_e;
+  }
+  else
+  {
+    localB->y_r = localB->y_g;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_u = localB->y_r;
+  }
+  else
+  {
+    localB->y_u = localB->y_g;
+  }
+  localB->y_ba = localB->y_u > localB->y_i;
+  localB->y_da = localDw->yb;
+  localB->y_ea = localDw->k_fa * localB->y_da;
+  if (localB->y_n != (0U))
+  {
+    localB->y_ga = raw;
+  }
+  else
+  {
+    localB->y_ga = localB->y_da;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_ka = localB->y_ga;
+  }
+  else
+  {
+    localB->y_ka = localB->y_da;
+  }
+  localB->y_pa = localDw->k_qa * localB->y_ka;
+  localB->y_ra = localB->y_pa + localB->y_ea;
+  localB->y_wa = localDw->yb_ya;
+  localB->y_bb = localB->y_m > localB->y_wa;
+  if (localB->y_bb != (0U))
+  {
+    *y = localB->y_ra;
+  }
+  else
+  {
+    *y = localB->y_g;
+  }
+  localB->y_fb = localB->y_wa + localB->y_k;
+  if (localB->y_ba != (0U))
+  {
+    localB->y_ib = localB->y_g;
+  }
+  else
+  {
+    localB->y_ib = localB->y_fb;
+  }
+  localDw->yb = localB->y_ra;
+  localDw->yb_ya = localB->y_ib;
+}
+void m27FiltersrInit(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27FiltersrB* 
+  localB, struct aFiltersrDw* localDw)
+{
+  localDw->k = (MwbDouble)((2));
+  localDw->k_b = (MwbDouble)((250));
+  localDw->k_d = (MwbDouble)((1));
+  localDw->k_f = (MwbDouble)((0));
+  localDw->k_h = 0.5;
+  localDw->k_j = 0.05;
+  localDw->k_l = 0.15;
+  localDw->initCond = (MwbDouble)((100));
+  localDw->yb = localDw->initCond;
+  localDw->k_fa = 0.1;
+  localDw->k_qa = 0.9;
+  localDw->initCond_ua = (MwbDouble)((0));
+  localDw->yb_ya = localDw->initCond_ua;
+}
+
+void for_code_jgb520_team27Filtersr(MwbDouble raw, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+for_code_jgb520_team27FiltersrB* localB, struct aFiltersrDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_e = localDw->k_d;
+  localB->y_g = localDw->k_f;
+  localB->y_i = localDw->k_h;
+  localB->y_k = localDw->k_j;
+  localB->y_m = localDw->k_l;
+  localB->y_n = raw > localB->y_a;
+  localB->y_q = localB->y_c > raw;
+  if (localB->y_n != (0U))
+  {
+    localB->y_r = localB->y_e;
+  }
+  else
+  {
+    localB->y_r = localB->y_g;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_u = localB->y_r;
+  }
+  else
+  {
+    localB->y_u = localB->y_g;
+  }
+  localB->y_ba = localB->y_u > localB->y_i;
+  localB->y_da = localDw->yb;
+  localB->y_ea = localDw->k_fa * localB->y_da;
+  if (localB->y_n != (0U))
+  {
+    localB->y_ga = raw;
+  }
+  else
+  {
+    localB->y_ga = localB->y_da;
+  }
+  if (localB->y_q != (0U))
+  {
+    localB->y_ka = localB->y_ga;
+  }
+  else
+  {
+    localB->y_ka = localB->y_da;
+  }
+  localB->y_pa = localDw->k_qa * localB->y_ka;
+  localB->y_ra = localB->y_pa + localB->y_ea;
+  localB->y_wa = localDw->yb_ya;
+  localB->y_bb = localB->y_m > localB->y_wa;
+  if (localB->y_bb != (0U))
+  {
+    *y = localB->y_ra;
+  }
+  else
+  {
+    *y = localB->y_g;
+  }
+  localB->y_fb = localB->y_wa + localB->y_k;
+  if (localB->y_ba != (0U))
+  {
+    localB->y_ib = localB->y_g;
+  }
+  else
+  {
+    localB->y_ib = localB->y_fb;
+  }
+  localDw->yb = localB->y_ra;
+  localDw->yb_ya = localB->y_ib;
+}
+void for_code_jgb520_team27ChartInit(MwbDouble sr, MwbDouble fl, MwbDouble sl, MwbDouble fc, MwbDouble fr, MwbDouble fcRaw, MwbDouble* 
+  speed, MwbDouble* steer, MwbDouble* gapS, MwbDouble* servo, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27ChartB* 
+  localB, struct for_code_jgb520_team27ChartDw* localDw)
+{
+  localDw->frontWarn = (MwbDouble)((20));
+  localDw->frontStrong = (MwbDouble)((12));
+  localDw->frontEmergency = 5.5;
+  localDw->frontRelease = (MwbDouble)((25));
+  localDw->frontSectorEmergency = (MwbDouble)((6));
+  localDw->sideEmergency = 4.5;
+  localDw->sideCorrection = (MwbDouble)((8));
+  localDw->scoreCap = (MwbDouble)((40));
+  localDw->directionHysteresis = 2.5;
+  localDw->normalDeadband = (MwbDouble)((3));
+  localDw->clockwiseBias = 0.5;
+  localDw->directionLock = (MwbDouble)((0));
+  localDw->flEff = (MwbDouble)((40));
+  localDw->frEff = (MwbDouble)((40));
+  localDw->slEff = (MwbDouble)((40));
+  localDw->srEff = (MwbDouble)((40));
+  localDw->flCap = (MwbDouble)((40));
+  localDw->frCap = (MwbDouble)((40));
+  localDw->slCap = (MwbDouble)((40));
+  localDw->srCap = (MwbDouble)((40));
+  localDw->leftScore = (MwbDouble)((40));
+  localDw->rightScore = (MwbDouble)((40));
+  localDw->steeringMagnitude = (MwbDouble)((0));
+  localDw->normalSteer = (MwbDouble)((0));
+  *speed = (MwbDouble)((0));
+  *steer = (MwbDouble)((0));
+  *gapS = (MwbDouble)((0));
+  *servo = (MwbDouble)((0));
+}
+void for_code_jgb520_team27Chart(MwbDouble sr, MwbDouble fl, MwbDouble sl, MwbDouble fc, MwbDouble fr, MwbDouble fcRaw, MwbDouble* 
+speed, MwbDouble* steer, MwbDouble* gapS, MwbDouble* servo, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct for_code_jgb520_team27ChartB* 
+localB, struct for_code_jgb520_team27ChartDw* localDw)
+{
+  if (localDw->is_active_chart == 0U)
+  {
+    localDw->is_active_chart = (MwbInt8)(((1U)));
+    if (fl >= 2)
+    {
+      localDw->flEff = fl;
+    }
+    else
+    {
+      localDw->flEff = localDw->scoreCap;
+    }
+    if (fr >= 2)
+    {
+      localDw->frEff = fr;
+    }
+    else
+    {
+      localDw->frEff = localDw->scoreCap;
+    }
+    if (sl >= 2)
+    {
+      localDw->slEff = sl;
+    }
+    else
+    {
+      localDw->slEff = localDw->scoreCap;
+    }
+    if (sr >= 2)
+    {
+      localDw->srEff = sr;
+    }
+    else
+    {
+      localDw->srEff = localDw->scoreCap;
+    }
+    if (localDw->flEff < localDw->scoreCap)
+    {
+      localDw->flCap = localDw->flEff;
+    }
+    else
+    {
+      localDw->flCap = localDw->scoreCap;
+    }
+    if (localDw->frEff < localDw->scoreCap)
+    {
+      localDw->frCap = localDw->frEff;
+    }
+    else
+    {
+      localDw->frCap = localDw->scoreCap;
+    }
+    if (localDw->slEff < localDw->scoreCap)
+    {
+      localDw->slCap = localDw->slEff;
+    }
+    else
+    {
+      localDw->slCap = localDw->scoreCap;
+    }
+    if (localDw->srEff < localDw->scoreCap)
+    {
+      localDw->srCap = localDw->srEff;
+    }
+    else
+    {
+      localDw->srCap = localDw->scoreCap;
+    }
+    localDw->leftScore = 0.82 * localDw->flCap + 0.18 * localDw->slCap;
+    localDw->rightScore = 0.82 * localDw->frCap + 0.18 * localDw->srCap + localDw->clockwiseBias;
+    if (fc > localDw->frontRelease)
+    {
+      localDw->directionLock = (MwbDouble)((0));
+    }
+    else if (fc > 0 && fc <= localDw->frontWarn)
+    {
+      if (localDw->directionLock > 0.5)
+      {
+        if ((localDw->flEff < localDw->frontSectorEmergency || localDw->slEff < localDw->sideEmergency) && localDw->rightScore > localDw->leftScore 
+        + localDw->directionHysteresis)
+        {
+          localDw->directionLock = (MwbDouble)(((-1)));
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+      }
+      else if (localDw->directionLock < (-0.5))
+      {
+        if ((localDw->frEff < localDw->frontSectorEmergency || localDw->srEff < localDw->sideEmergency) && localDw->leftScore > localDw->rightScore 
+        + localDw->directionHysteresis)
+        {
+          localDw->directionLock = (MwbDouble)((1));
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+      }
+      else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis && localDw->flEff > localDw->frontSectorEmergency 
+      && localDw->slEff > localDw->sideEmergency)
+      {
+        localDw->directionLock = (MwbDouble)((1));
+      }
+      else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis && localDw->frEff > localDw->frontSectorEmergency 
+      && localDw->srEff > localDw->sideEmergency)
+      {
+        localDw->directionLock = (MwbDouble)(((-1)));
+      }
+      else if (localDw->flEff > localDw->frontSectorEmergency && localDw->slEff > localDw->sideEmergency && !((localDw->frEff > localDw->frontSectorEmergency 
+      && localDw->srEff > localDw->sideEmergency)))
+      {
+        localDw->directionLock = (MwbDouble)((1));
+      }
+      else
+      {
+        localDw->directionLock = (MwbDouble)(((-1)));
+      }
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency || fc < 7 && localDw->flEff < localDw->frontSectorEmergency 
+    && localDw->frEff < localDw->frontSectorEmergency)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (fc <= 8)
+      {
+        *speed = (MwbDouble)((55));
+      }
+      else if (fc <= localDw->frontStrong)
+      {
+        *speed = (MwbDouble)((65));
+      }
+      else
+      {
+        *speed = (MwbDouble)((85));
+      }
+    }
+    else if (localDw->flEff < 8 || localDw->frEff < 8 || localDw->slEff < localDw->sideEmergency || localDw->srEff < localDw->sideEmergency)
+    {
+      *speed = (MwbDouble)((70));
+    }
+    else if (fc <= 30 || localDw->flEff < 15 || localDw->frEff < 15)
+    {
+      *speed = (MwbDouble)((110));
+    }
+    else
+    {
+      *speed = (MwbDouble)((160));
+    }
+    if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    {
+      *steer = (-0.55);
+      localDw->directionLock = (MwbDouble)(((-1)));
+    }
+    else if (localDw->srEff < localDw->sideEmergency && !((localDw->slEff < localDw->sideEmergency)))
+    {
+      *steer = 0.55;
+      localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (fc <= 8)
+      {
+        localDw->steeringMagnitude = 0.55;
+      }
+      else if (fc <= localDw->frontStrong)
+      {
+        localDw->steeringMagnitude = 0.48;
+      }
+      else if (fc <= 16)
+      {
+        localDw->steeringMagnitude = 0.4;
+      }
+      else
+      {
+        localDw->steeringMagnitude = 0.3;
+      }
+      *steer = localDw->directionLock * localDw->steeringMagnitude;
+    }
+    else
+    {
+      if (localDw->flCap - localDw->frCap > localDw->normalDeadband || localDw->frCap - localDw->flCap > localDw->normalDeadband)
+      {
+        localDw->normalSteer = 0.012 * (localDw->flCap - localDw->frCap);
+      }
+      else
+      {
+        localDw->normalSteer = (MwbDouble)((0));
+      }
+      if (localDw->slEff < localDw->sideCorrection)
+      {
+        localDw->normalSteer = localDw->normalSteer - 0.045 * (localDw->sideCorrection - localDw->slEff);
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+      if (localDw->srEff < localDw->sideCorrection)
+      {
+        localDw->normalSteer = localDw->normalSteer + 0.045 * (localDw->sideCorrection - localDw->srEff);
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+      if (localDw->normalSteer > 0.24)
+      {
+        *steer = 0.24;
+      }
+      else if (localDw->normalSteer < (-0.24))
+      {
+        *steer = (-0.24);
+      }
+      else
+      {
+        *steer = localDw->normalSteer;
+      }
+    }
+    *gapS = (MwbDouble)((0));
+    *servo = (MwbDouble)((0));
+  }
+  else
+  {
+    if (fl >= 2)
+    {
+      localDw->flEff = fl;
+    }
+    else
+    {
+      localDw->flEff = localDw->scoreCap;
+    }
+    if (fr >= 2)
+    {
+      localDw->frEff = fr;
+    }
+    else
+    {
+      localDw->frEff = localDw->scoreCap;
+    }
+    if (sl >= 2)
+    {
+      localDw->slEff = sl;
+    }
+    else
+    {
+      localDw->slEff = localDw->scoreCap;
+    }
+    if (sr >= 2)
+    {
+      localDw->srEff = sr;
+    }
+    else
+    {
+      localDw->srEff = localDw->scoreCap;
+    }
+    if (localDw->flEff < localDw->scoreCap)
+    {
+      localDw->flCap = localDw->flEff;
+    }
+    else
+    {
+      localDw->flCap = localDw->scoreCap;
+    }
+    if (localDw->frEff < localDw->scoreCap)
+    {
+      localDw->frCap = localDw->frEff;
+    }
+    else
+    {
+      localDw->frCap = localDw->scoreCap;
+    }
+    if (localDw->slEff < localDw->scoreCap)
+    {
+      localDw->slCap = localDw->slEff;
+    }
+    else
+    {
+      localDw->slCap = localDw->scoreCap;
+    }
+    if (localDw->srEff < localDw->scoreCap)
+    {
+      localDw->srCap = localDw->srEff;
+    }
+    else
+    {
+      localDw->srCap = localDw->scoreCap;
+    }
+    localDw->leftScore = 0.82 * localDw->flCap + 0.18 * localDw->slCap;
+    localDw->rightScore = 0.82 * localDw->frCap + 0.18 * localDw->srCap + localDw->clockwiseBias;
+    if (fc > localDw->frontRelease)
+    {
+      localDw->directionLock = (MwbDouble)((0));
+    }
+    else if (fc > 0 && fc <= localDw->frontWarn)
+    {
+      if (localDw->directionLock > 0.5)
+      {
+        if ((localDw->flEff < localDw->frontSectorEmergency || localDw->slEff < localDw->sideEmergency) && localDw->rightScore > localDw->leftScore 
+        + localDw->directionHysteresis)
+        {
+          localDw->directionLock = (MwbDouble)(((-1)));
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+      }
+      else if (localDw->directionLock < (-0.5))
+      {
+        if ((localDw->frEff < localDw->frontSectorEmergency || localDw->srEff < localDw->sideEmergency) && localDw->leftScore > localDw->rightScore 
+        + localDw->directionHysteresis)
+        {
+          localDw->directionLock = (MwbDouble)((1));
+        }
+        else
+        {
+          /* nothing to do. */
+        }
+      }
+      else if (localDw->leftScore > localDw->rightScore + localDw->directionHysteresis && localDw->flEff > localDw->frontSectorEmergency 
+      && localDw->slEff > localDw->sideEmergency)
+      {
+        localDw->directionLock = (MwbDouble)((1));
+      }
+      else if (localDw->rightScore > localDw->leftScore + localDw->directionHysteresis && localDw->frEff > localDw->frontSectorEmergency 
+      && localDw->srEff > localDw->sideEmergency)
+      {
+        localDw->directionLock = (MwbDouble)(((-1)));
+      }
+      else if (localDw->flEff > localDw->frontSectorEmergency && localDw->slEff > localDw->sideEmergency && !((localDw->frEff > localDw->frontSectorEmergency 
+      && localDw->srEff > localDw->sideEmergency)))
+      {
+        localDw->directionLock = (MwbDouble)((1));
+      }
+      else
+      {
+        localDw->directionLock = (MwbDouble)(((-1)));
+      }
+    }
+    else
+    {
+      /* nothing to do. */
+    }
+    if (fc <= localDw->frontEmergency || fcRaw >= 2 && fcRaw <= localDw->frontEmergency || fc < 7 && localDw->flEff < localDw->frontSectorEmergency 
+    && localDw->frEff < localDw->frontSectorEmergency)
+    {
+      *speed = (MwbDouble)((0));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (fc <= 8)
+      {
+        *speed = (MwbDouble)((55));
+      }
+      else if (fc <= localDw->frontStrong)
+      {
+        *speed = (MwbDouble)((65));
+      }
+      else
+      {
+        *speed = (MwbDouble)((85));
+      }
+    }
+    else if (localDw->flEff < 8 || localDw->frEff < 8 || localDw->slEff < localDw->sideEmergency || localDw->srEff < localDw->sideEmergency)
+    {
+      *speed = (MwbDouble)((70));
+    }
+    else if (fc <= 30 || localDw->flEff < 15 || localDw->frEff < 15)
+    {
+      *speed = (MwbDouble)((110));
+    }
+    else
+    {
+      *speed = (MwbDouble)((160));
+    }
+    if (localDw->slEff < localDw->sideEmergency && !((localDw->srEff < localDw->sideEmergency)))
+    {
+      *steer = (-0.55);
+      localDw->directionLock = (MwbDouble)(((-1)));
+    }
+    else if (localDw->srEff < localDw->sideEmergency && !((localDw->slEff < localDw->sideEmergency)))
+    {
+      *steer = 0.55;
+      localDw->directionLock = (MwbDouble)((1));
+    }
+    else if (localDw->directionLock > 0.5 || localDw->directionLock < (-0.5))
+    {
+      if (fc <= 8)
+      {
+        localDw->steeringMagnitude = 0.55;
+      }
+      else if (fc <= localDw->frontStrong)
+      {
+        localDw->steeringMagnitude = 0.48;
+      }
+      else if (fc <= 16)
+      {
+        localDw->steeringMagnitude = 0.4;
+      }
+      else
+      {
+        localDw->steeringMagnitude = 0.3;
+      }
+      *steer = localDw->directionLock * localDw->steeringMagnitude;
+    }
+    else
+    {
+      if (localDw->flCap - localDw->frCap > localDw->normalDeadband || localDw->frCap - localDw->flCap > localDw->normalDeadband)
+      {
+        localDw->normalSteer = 0.012 * (localDw->flCap - localDw->frCap);
+      }
+      else
+      {
+        localDw->normalSteer = (MwbDouble)((0));
+      }
+      if (localDw->slEff < localDw->sideCorrection)
+      {
+        localDw->normalSteer = localDw->normalSteer - 0.045 * (localDw->sideCorrection - localDw->slEff);
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+      if (localDw->srEff < localDw->sideCorrection)
+      {
+        localDw->normalSteer = localDw->normalSteer + 0.045 * (localDw->sideCorrection - localDw->srEff);
+      }
+      else
+      {
+        /* nothing to do. */
+      }
+      if (localDw->normalSteer > 0.24)
+      {
+        *steer = 0.24;
+      }
+      else if (localDw->normalSteer < (-0.24))
+      {
+        *steer = (-0.24);
+      }
+      else
+      {
+        *steer = localDw->normalSteer;
+      }
+    }
+    *gapS = (MwbDouble)((0));
+    *servo = (MwbDouble)((0));
+  }
+}
+void ajgb520_team27SteeringratelimiterInit(MwbDouble target, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, 
+  struct b520_team27SteeringratelimiterB* localB, struct gb520_team27SteeringratelimiterDw* localDw)
+{
+  localDw->k = 0.12;
+  localDw->k_b = (-0.12);
+  localDw->initCond = (MwbDouble)((0));
+  localDw->yb = localDw->initCond;
+}
+
+void a20_team27Steeringratelimiter(MwbDouble target, MwbDouble* y, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, struct 
+b520_team27SteeringratelimiterB* localB, struct gb520_team27SteeringratelimiterDw* localDw)
+{
+  localB->y_a = localDw->k;
+  localB->y_c = localDw->k_b;
+  localB->y_d = localDw->yb;
+  localB->y_e = target - localB->y_d;
+  if (localB->y_e > localB->y_a)
+  {
+    localB->y_g = localB->y_a;
+  }
+  else if (localB->y_e < localB->y_c)
+  {
+    localB->y_g = localB->y_c;
+  }
+  else
+  {
+    localB->y_g = localB->y_e;
+  }
+  *y = localB->y_g + localB->y_d;
+  localDw->yb = *y;
+}
+void Obsavoidcontroller_team27_mwo28(MwbDouble front_dist, MwbDouble rear_dist, MwbDouble right_dist, MwbDouble left_dist, MwbDouble 
+  fu_dist, MwbDouble* speed, MwbDouble* steer, MwbDouble* gap, MwbDouble* fu_sensor_cmd, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, 
+  struct Obsavoidcontroller_team27_mwor2* localB, struct Obsavoidcontroller_team27_mwor3* localDw)
+{
+  m27FilterfcInit(localB->y, &localDw->temp3, for_code_jgb520_team27GbMd, &localB->filterFC, &localDw->filterFC);
+  m27FilterflInit(localB->y_b, &localDw->temp1, for_code_jgb520_team27GbMd, &localB->filterFL, &localDw->filterFL);
+  m27FilterfrInit(localB->y_d, &localDw->temp4, for_code_jgb520_team27GbMd, &localB->filterFR, &localDw->filterFR);
+  m27FilterslInit(localB->y_f, &localDw->temp2, for_code_jgb520_team27GbMd, &localB->filterSL, &localDw->filterSL);
+  m27FiltersrInit(localB->y_h, &localDw->temp, for_code_jgb520_team27GbMd, &localB->filterSR, &localDw->filterSR);
+  for_code_jgb520_team27ChartInit(localDw->temp, localDw->temp1, localDw->temp2, localDw->temp3, localDw->temp4, localB->y, speed, 
+  &localDw->temp5, gap, fu_sensor_cmd, for_code_jgb520_team27GbMd, &localB->chart, &localDw->chart);
+  ajgb520_team27SteeringratelimiterInit(localDw->temp5, &localDw->u_l, for_code_jgb520_team27GbMd, &localB->steeringRateLimiter, &localDw->steeringRateLimiter);
+  
+  localDw->k = 0.55;
+  localDw->k_j = (-0.55);
+}
+
+void Obsavoidcontroller_team27_mwo27(MwbDouble front_dist, MwbDouble rear_dist, MwbDouble right_dist, MwbDouble left_dist, MwbDouble 
+fu_dist, MwbDouble* speed, MwbDouble* steer, MwbDouble* gap, MwbDouble* fu_sensor_cmd, for_code_jgb520_team27Emd*const for_code_jgb520_team27GbMd, 
+struct Obsavoidcontroller_team27_mwor2* localB, struct Obsavoidcontroller_team27_mwor3* localDw)
+{
+  localB->y = fabs(front_dist);
+  localB->y_b = fabs(rear_dist);
+  localB->y_d = fabs(fu_dist);
+  localB->y_f = fabs(left_dist);
+  localB->y_h = fabs(right_dist);
+  for_code_jgb520_team27Filterfc(localB->y, &localDw->temp3, for_code_jgb520_team27GbMd, &localB->filterFC, &localDw->filterFC);
+  for_code_jgb520_team27Filterfl(localB->y_b, &localDw->temp1, for_code_jgb520_team27GbMd, &localB->filterFL, &localDw->filterFL);
+  
+  for_code_jgb520_team27Filterfr(localB->y_d, &localDw->temp4, for_code_jgb520_team27GbMd, &localB->filterFR, &localDw->filterFR);
+  
+  for_code_jgb520_team27Filtersl(localB->y_f, &localDw->temp2, for_code_jgb520_team27GbMd, &localB->filterSL, &localDw->filterSL);
+  
+  for_code_jgb520_team27Filtersr(localB->y_h, &localDw->temp, for_code_jgb520_team27GbMd, &localB->filterSR, &localDw->filterSR);
+  for_code_jgb520_team27Chart(localDw->temp, localDw->temp1, localDw->temp2, localDw->temp3, localDw->temp4, localB->y, speed, &localDw->temp5, 
+  gap, fu_sensor_cmd, for_code_jgb520_team27GbMd, &localB->chart, &localDw->chart);
+  a20_team27Steeringratelimiter(localDw->temp5, &localDw->u_l, for_code_jgb520_team27GbMd, &localB->steeringRateLimiter, &localDw->steeringRateLimiter);
+  
+  localB->y_i = localDw->k;
+  localB->y_k = localDw->k_j;
+  if (localDw->u_l > localB->y_i)
+  {
+    *steer = localB->y_i;
+  }
+  else if (localDw->u_l < localB->y_k)
+  {
+    *steer = localB->y_k;
+  }
+  else
+  {
+    *steer = localDw->u_l;
   }
 }
 

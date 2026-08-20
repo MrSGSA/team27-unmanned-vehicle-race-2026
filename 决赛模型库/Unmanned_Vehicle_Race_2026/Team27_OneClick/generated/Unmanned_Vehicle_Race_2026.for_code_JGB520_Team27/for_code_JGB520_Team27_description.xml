@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Model>
+  <ModelInfo Name="for_code_JGB520_Team27" ModelChecksum="2ad89a66-420e-4e12-8452-1f0f940f2fef" FundamentalStepSize="0.05" NumPeriodicTasks="1" TID01EQ="1" StopTime="1" />
+
+  <SampleTimeConfig NumSampleTimes="1">
+    <SampleTime TID="1" ClockTickStepSize="0.05" />
+  </SampleTimeConfig>
+
+  <DataTypeTable NumDataTypes="1">
+    <DataType index="0" typeName="MwbDouble" Size="8" />
+  </DataTypeTable>
+
+  <RootInputs>
+  </RootInputs>
+
+  <RootOutputs>
+    <BlockSignal dataMapIndex="0" path="for_code_JGB520_Team27" name="front_center_dist_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="1" path="for_code_JGB520_Team27" name="front_right_dist_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="2" path="for_code_JGB520_Team27" name="side_right_dist_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="3" path="for_code_JGB520_Team27" name="side_left_dist_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="4" path="for_code_JGB520_Team27" name="front_left_dist_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="5" path="for_code_JGB520_Team27" name="speed_cmd_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="6" path="for_code_JGB520_Team27" name="steer_cmd_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+    <BlockSignal dataMapIndex="7" path="for_code_JGB520_Team27" name="fixed_servo_cmd_out" dtIndex="0" dimNum = "0" dimentions="0" isComplex="0" width="1" />
+  </RootOutputs>
+
+</Model>

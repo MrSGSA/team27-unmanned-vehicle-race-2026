@@ -5,3 +5,12 @@
 Thumbs.db
 .DS_Store
 
+# MWORKS local generation runs and validation caches.  Keep the canonical
+# Team27_OneClick/generated/Unmanned_Vehicle_Race_2026.for_code_JGB520_Team27
+# directory tracked, but do not commit numbered per-run folders.
+**/Team27_OneClick/generated/*-[0-9]*/
+**/Team27_OneClick/generated_*/*
+**/Team27_OneClick/generated_*/
+**/Unmanned_Vehicle_Race_2026_backup/
+**/results/
+**/*_config.xml
